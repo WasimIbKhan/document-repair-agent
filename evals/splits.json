@@ -1,11 +1,14 @@
 {
-  "train": ["shakhsiyya-1"],
+  "train": [
+    "shakhsiyya-1"
+  ],
   "validation": [
     "islamic-disposition",
     "islamic-personality-2",
     "political-concepts",
     "political-thoughts",
-    "system-of-islam"
+    "system-of-islam",
+    "lean-startup"
   ],
-  "test": ["lean-startup"]
+  "test": []
 }

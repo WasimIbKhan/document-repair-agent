@@ -7,12 +7,12 @@ from toc_repair.splits import EVALS_DIR, load_splits, split_of
 
 def test_committed_splits_are_disjoint_and_have_cases():
     splits = load_splits()
-    assert splits["test"][0] == "lean-startup"
+    assert "lean-startup" in splits["validation"]
     assert splits["train"] == ["shakhsiyya-1"]
     for doc_ids in splits.values():
         for doc_id in doc_ids:
             assert (EVALS_DIR / "cases" / doc_id / "ground_truth_toc.txt").exists(), doc_id
-    assert split_of("lean-startup", splits) == "test"
+    assert split_of("lean-startup", splits) == "validation"
     assert split_of("nope", splits) is None
 
 
