@@ -102,3 +102,13 @@ Chosen: finding cheaper ways is part of the R&D.
 Why: my mistake before was that I was too lazy and didn't want to find cheaper alternative ways to do this. My earlier agent cost about $2.44 a book, mostly from re-sending page images every turn, while reading the contents pages cost under a cent. It's all to do with methodology and mechanisms. Finding cheaper ways to do this is something we hope to identify over time with experiments.
 
 Consequence: every run logs its cost, and cheaper mechanisms get compared on the evals like any other change.
+
+## 2026-10-04: What does a TOC entry point to?
+
+Options: (A) a block in the parser's output, as the brief says, or (B) a place in the PDF itself: the page and the line in the PDF's own text.
+
+Chosen: B.
+
+Why: the parser loses headings. In Shakhsiyya it dropped "The Islamic Personality" on page 16 completely, so there is no block to point to, and with block ids that heading could never be cited however good the agent is. A place in the PDF always exists. Claude can construct the TOC to near 100%, but unless it's linked to the document it means nothing, and B is what makes the link possible every time. It also removes the problem of headings split across blocks, like "Part One" and "VISION" in Lean Startup, because in the PDF that's one line.
+
+Consequence: the schema's TOC entry changes from a block id to a page and a PDF line. When I port this into Enlighten, a place in the PDF maps to the first parser item at or after it by page and position, which works even when the parser's text is broken.
