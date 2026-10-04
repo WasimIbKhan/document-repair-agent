@@ -10,6 +10,37 @@ Why:
 Consequence:
 -->
 
+## Background: two years of the same problem (October 2024 to October 2026)
+
+This repo is not the first time I've tried to get book structure right. It's the problem underneath my whole app: if the chapters and sections are wrong, every study plan, summary and lesson built on them is wrong too. Here is what I tried, what I decided each time, and what kept breaking.
+
+**October 2024: first conversions.** I ran about 80 books through marker (an old marker-api wrapper) into markdown. The headings were already wrong in the ways I still see today. In Machiavelli's *The Prince*, the roman-numeral page numbers ("Vi", "Xli") came out as headings. In *The Sealed Nectar*, a Qur'an verse became a heading.
+
+**July 2025: geometry.** First structure code in the app: infer heading levels from bounding-box prominence and clustering. Decision: trust the layout geometry. No eval, so I didn't know how well it worked.
+
+**December 2025: hand-tuned heuristics (V14).** A deterministic pipeline of about 2,500 lines: layout clustering, running-header removal, OCR fixes, TOC-page removal, chapter identification, sequence repair. Tuned by hand across 63 books, with versions up to V14.6. A rule that promoted "Notes to Chapter X" had to be switched off. The code claimed 95% accuracy, but there was no answer key behind that number. I also added the EPUB parser and debugging viewers for position mismatches.
+
+**February to June 2026: the symptoms moved downstream.** I logged V14 on a marketing textbook with no accuracy number, extended the chain to marker, and started telling the plan prompt to keep front and back matter out of milestones. That was a patch on the symptom, not the cause.
+
+**Late June 2026: a repair step after parsing.** I built a separate module to repair the parser's output against the book's own contents page.
+- Reading the contents page: text detection found a usable TOC in about 0 of 14 books, while reading the page as an image found 13 of 14.
+- First try, an agent per chapter: it did not beat the unrepaired output (one book went 55 to 30), the LLM judge was too noisy to measure with, and it cost about $2.44 a book.
+- Decision: an agent only to read the contents page (under a cent a book), deterministic code for everything else. A fix to the page-offset matcher raised mean coverage from 0.68 to 0.80.
+
+**July 2026: wired into ingestion, and parser churn.** The repair now runs on every parse and fails safe. The primary parser switched three times between MinerU and marker. A split chapter-label bug left 44% of the Muqaddimah's text on the wrong nodes.
+
+**August to September 2026: more downstream symptoms.** Plans ended at heading 80 until I raised the cap. EPUBs whose headings were styled paragraphs matched 0 of 146 contents entries until I rewrote them as real headings (then 146 of 146).
+
+**End of September 2026: the Lean Startup bug.** MinerU filed chapter openers as page headers and page numbers. The repair only searched body text, so "Introduction" swallowed 99% of the book, and extracting it cost $0.79 instead of about $0.05. That is why this repo exists.
+
+**What kept failing, every time:**
+- The parser's heading levels can't be trusted, and every fix was per book: rules tuned on 63 books, three parser switches, patch after patch.
+- Matching titles against the parser's text, because that text is itself broken.
+- Nesting by level alone, so one wrong level swallows everything after it.
+- No real measurement. A 95% claim with no answer key, a noisy LLM judge, and no held-out test books until this repo.
+
+The decisions below are what I'm doing differently.
+
 ## 2026-09-28: Which documents do we evaluate on?
 
 Options: public-domain PDFs only, as the brief says, or the real broken books from Enlighten.
