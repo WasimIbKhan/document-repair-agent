@@ -112,3 +112,15 @@ Chosen: B.
 Why: the parser loses headings. In Shakhsiyya it dropped "The Islamic Personality" on page 16 completely, so there is no block to point to, and with block ids that heading could never be cited however good the agent is. A place in the PDF always exists. Claude can construct the TOC to near 100%, but unless it's linked to the document it means nothing, and B is what makes the link possible every time. It also removes the problem of headings split across blocks, like "Part One" and "VISION" in Lean Startup, because in the PDF that's one line.
 
 Consequence: the schema's TOC entry changes from a block id to a page and a PDF line. When I port this into Enlighten, a place in the PDF maps to the first parser item at or after it by page and position, which works even when the parser's text is broken.
+
+## 2026-10-04: Agent-first, not heuristics-first
+
+Options: the brief's plan (deterministic heuristics handle most books, a confidence score routes the rest to an agent), or an agent first for every book.
+
+Chosen: agent-first, on two conditions. The deterministic parts become the agent's tools and its checker, not a gate in front of it. And the scorer comes first, so every run is measured.
+
+Why: we did so well with Shakhsiyya because Sonnet's vision read the contents pages at 95%+ and I as a human verified it. 95% in a complex document like that was acceptable. The reading was the model's work; the linking was mine: going to each page, finding the heading, checking it. That linking is exactly what an agent with good tools can do, in one mechanism for every book, instead of another pile of per-book rules like the last two years.
+
+The checker stays outside the model: every linked heading must be at the cited place in the PDF's own text, and levels must agree with the contents page indentation, which is the mistake I fixed by hand.
+
+Consequence: the heuristic router in the brief is no longer a prerequisite. A fast path that skips the agent for easy books becomes a cost experiment later: measure what the agent costs per book, then test whether a shortcut saves money without losing accuracy.
