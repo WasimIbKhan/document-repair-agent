@@ -124,3 +124,25 @@ Why: we did so well with Shakhsiyya because Sonnet's vision read the contents pa
 The checker stays outside the model: every linked heading must be at the cited place in the PDF's own text, and levels must agree with the contents page indentation, which is the mistake I fixed by hand.
 
 Consequence: the heuristic router in the brief is no longer a prerequisite. A fast path that skips the agent for easy books becomes a cost experiment later: measure what the agent costs per book, then test whether a shortcut saves money without losing accuracy.
+
+## 2026-10-04: Tool design
+
+Options: many small tools that wrap the PDF, or a few tools that each do a whole job.
+
+Chosen: a few tools that each do a whole job, following Anthropic's guidance on writing tools for agents. If we add any more tools, we'll be careful. The agent cites the line ids the tools give it, like `p234-l02`, never coordinates, and two ids when a heading is split over two lines, like "Part One" and "VISION".
+
+Why: the agent can't invent a position it was never shown, and every tool reads the PDF's own text, not the parser's. On page 234 of Shakhsiyya the PDF says "Sources of Tafsīr" in full where the parser had "Sources of".
+
+## 2026-10-04: Text first, vision for the harder books
+
+Options: read every contents page and every heading from page images, or use the PDF's text layer and only look at images when the text can't do it.
+
+Chosen: text first. The contents page is the source of truth and connecting it to the body is the hard part. Vision is for the more difficult books: when the text layer is missing or garbled, as in a scanned book, or when the text can't settle which line is the heading.
+
+Why: the text layer already gives every line's size, boldness and position, which is enough for most books, and it costs almost nothing next to images. It's part of finding cheaper ways to do this.
+
+## 2026-10-04: Page image budget
+
+Chosen: keep it low: at most 20 page images per book for now. I suppose you can't have more than 20 heading 1s in most books.
+
+Consequence: every run logs how many images it used, so the evals show whether the cap is ever reached. Images stay in the conversation and are paid for again on every later turn, so the real cost of an image is higher than one call.
