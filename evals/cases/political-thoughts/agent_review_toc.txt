@@ -2,46 +2,61 @@
 # One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
 # doc: political-thoughts
 # model: claude-sonnet-5
-# timestamp: 20261004-214550
-# source: toc-repair-agent (fallback), not yet human-verified
+# timestamp: 20261004-230345
+# source: toc-repair-agent (agent), not yet human-verified
 # needs_human: true
-# confidence: 0.658
+# confidence: 0.93
+# problem: entry 16 'The Political Medium': lines p077-l00, p077-l01 read '15 Political Medium' (score 89); cite the line(s) that hold exactly this heading
 
+# role: chapter
 Introduction @ 5
-  Political Thought @ 7
-    Politics @ 7
-    Political Concepts @ 22
-    Politics is the Art of Possibilities @ 24
-    Politics and International Politics @ 26
-    Understanding the @ 29
-    International Situation @ 29
-    The International Community, @ 33
-    its Norms & Laws @ 33
-    Political Thinking @ 41
-    Political Awareness @ 54
-    Political Struggle @ 61
-    Political Actions @ 63
-    Political Experience @ 66
-    Involvement in Politics is an @ 68
-    Obligation Upon Muslims @ 68
-AAKARSI finallast.qxd 18/08/99 20:35 PM Page @ 68
-  The Statesman @ 72
-  The Political Medium @ 77
-  Vacuum @ 85
-  Ruling in Islam @ 88
-  The Ruling System in Islam @ 93
-  is One of Unity and is Not Federal @ 95
-  The Public Responsibilities @ 97
-  Detachment between the Ummah @ 105
-  and the State, and the @ 105
-  Obligation of Accounting @ 105
-  Establishing Political Parties @ 108
-  is a Fard Kifayah @ 108
-  How can Individuals & Parties @ 112
-  Influence International Politics @ 112
-  & the States direction? @ 112
-  Democracy is a System of Kufr @ 114
-  The Political Issue for @ 119
-  the Ummah and the Islamic State @ 119
-  The Vital Issue @ 122
-AAKARSI finallast.qxd 18/08/99 20:35 PM Page @ 122
+# role: chapter
+Political Thought @ 7
+# role: chapter
+Politics @ 11
+# role: chapter
+Political Concepts @ 22
+# role: chapter
+Politics is the Art of Possibilities @ 24
+# role: chapter
+Politics and International Politics @ 26
+# role: chapter
+Understanding the International Situation @ 29
+# role: chapter
+The International Community, its Norms & Laws @ 33
+# role: chapter
+Political Thinking @ 41
+# role: chapter
+Political Awareness @ 54
+# role: chapter
+Political Struggle @ 61
+# role: chapter
+Political Actions @ 63
+# role: chapter
+Political Experience @ 66
+# role: chapter
+Involvement in Politics is an Obligation Upon Muslims @ 68
+# role: chapter
+The Statesman @ 72
+# role: chapter
+The Political Medium @ 77
+# role: chapter
+Vacuum @ 85
+# role: chapter
+Ruling in Islam @ 88
+# role: chapter
+The Ruling System in Islam is One of Unity and is Not Federal @ 95
+# role: chapter
+The Public Responsibilities @ 97
+# role: chapter
+Detachment between the Ummah and the State, and the Obligation of Accounting @ 105
+# role: chapter
+Establishing Political Parties is a Fard Kifayah @ 108
+# role: chapter
+How can Individuals & Parties Influence International Politics & the States direction? @ 112
+# role: chapter
+Democracy is a System of Kufr @ 114
+# role: chapter
+The Political Issue for the Ummah and the Islamic State @ 119
+# role: chapter
+The Vital Issue @ 122

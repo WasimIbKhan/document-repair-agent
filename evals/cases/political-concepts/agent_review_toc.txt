@@ -2,10 +2,10 @@
 # One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
 # doc: political-concepts
 # model: claude-sonnet-5
-# timestamp: 20261004-214430
+# timestamp: 20261004-230241
 # source: toc-repair-agent (agent), not yet human-verified
 # needs_human: false
-# confidence: 0.93
+# confidence: 0.95
 
 # role: chapter
 1. What Is Politics? @ 5

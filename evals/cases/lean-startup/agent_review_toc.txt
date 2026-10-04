@@ -1,17 +1,14 @@
-# NOTE: this is the agent's second proposal, which the checker REJECTED for one reason:
-#   'Introduction' must be level 1 (first entry) but the contents indentation reads as level 2.
-# The code fallback produced only 3 entries, so it is not used here. Not yet human-verified.
 # Agent-proposed TOC. Correct this file, then save it as ground_truth_toc.txt
 # One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
 # doc: lean-startup
 # model: claude-sonnet-5
-# timestamp: 20261004-222945
+# timestamp: 20261004-230934
 # source: toc-repair-agent (agent), not yet human-verified
 # needs_human: true
-# confidence: 0.55
+# confidence: 0.85
 
-# role: front_matter
-Introduction @ 11
+  # role: front_matter
+  Introduction @ 11
 # role: part
 Part One VISION @ 23
   # role: chapter
@@ -39,21 +36,20 @@ Part Three ACCELERATE @ 176
   # role: chapter
   10. Grow @ 200
   # role: chapter
+  11. Adapt @ 217
+  # role: chapter
   12. Innovate @ 244
   # role: chapter
   13. Epilogue: Waste Not @ 262
   # role: chapter
   14. Join the Movement @ 274
-# role: back_matter
-Acknowledgments @ 291
-# role: back_matter
-About the Author @ 295
+  # role: back_matter
+  Endnotes @ 280
+  # role: back_matter
+  Disclosures @ 290
 
 # unresolved:
-#   {"title": "Cover", "reason": "No extractable text layer on early pages (1-2 appear image-only); heading location could not be verified within tool budget."}
-#   {"title": "Title Page", "reason": "No extractable text layer found; location unverified within tool budget."}
-#   {"title": "Copyright", "reason": "No extractable text layer found; location unverified within tool budget."}
-#   {"title": "Dedication", "reason": "No distinct body text found (page 10 shows only margin running headers); location unverified within tool budget."}
-#   {"title": "11. Adapt", "reason": "Chapter heading not located; falls between confirmed Chapter 10 (p.200) and Chapter 12 (p.244) headings but exact page/line not found before tool budget was exhausted."}
-#   {"title": "Endnotes", "reason": "Endnotes section heading not directly located; surrounding endnote content found around p.277-290 but the section heading line was not confirmed before tool budget was exhausted."}
-#   {"title": "Disclosures", "reason": "Heading not located within tool budget."}
+#   {"title": "Cover", "reason": "no heading in the body: page 1 has no extractable text (image-only cover)"}
+#   {"title": "Title Page", "reason": "no heading in the body: page 2 has no extractable text (image-only title page)"}
+#   {"title": "Copyright", "reason": "no heading in the body: page 7 contains copyright/publisher text but no 'Copyright' heading line"}
+#   {"title": "Dedication", "reason": "no heading in the body: page 8 contains only the inscription 'For Tara', no 'Dedication' heading line"}

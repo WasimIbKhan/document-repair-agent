@@ -166,3 +166,12 @@ Chosen: all six, as proposed.
 6. If the checker rejects an answer, the agent gets the errors back once to fix them. If it fails again, fall back and flag the book for a human.
 
 Why: the model is never trusted without verification, and every rule is checked by code against the PDF, not by another model.
+
+## 2026-10-04: Checker changes after the first seven-book run
+
+I asked Claude to recommend these, based on what's likely across all kinds of books, and went with its recommendations.
+
+1. **The first entry may be level 1 or 2.** Front matter like an Introduction is often indented like the chapters. Lean Startup's contents page does that, so "the first entry must be level 1" contradicted "levels follow the contents indentation" and no answer could pass. The rejected alternative, exempting front and back matter by their role labels, would let the agent skip the indentation check just by calling an entry front matter.
+2. **Keep a nearly-right answer.** If the agent's second answer fails on at most 3 entries or 10%, whichever is larger, keep it with those entries flagged for me, instead of a code-only fallback. On Lean Startup the fallback threw away a 19-entry answer and kept 3.
+3. **Completeness.** Every contents-page entry must be linked or listed as unresolved with a reason. Nothing on the contents page can be silently dropped.
+4. **Bracketed and numbered headings match.** A cited line also matches when the title equals the line without its bracketed part, or the bracketed part itself, ignoring a leading number or "The". System of Islam's contents page prints "Legal Ruling" where the heading reads "Legal Ruling (Hukm Shar'i)", and the old rule rejected 16 correct links. The title must still equal a clearly defined part of the line.

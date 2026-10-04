@@ -2,14 +2,14 @@
 # One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
 # doc: system-of-islam
 # model: claude-sonnet-5
-# timestamp: 20261004-214711
+# timestamp: 20261004-230532
 # source: toc-repair-agent (fallback), not yet human-verified
 # needs_human: true
-# confidence: 0.417
+# confidence: 0.389
 
 The Way to Belief @ 6
 Predestined Fate and Destiny @ 16
-The Intellectual Leadership of Islam @ 38
+The Intellectual Leadership of Islam @ 24
 The Way to Carry the Islamic Da'wah @ 57
 The Islamic Civilisation @ 62
 The System of Islam @ 67
@@ -29,7 +29,7 @@ The Internal Security @ 102
 The Department of Foreign Affairs @ 103
 The Department of Industry @ 103
 The Judiciary @ 103
-The Administrative System @ 104
+The Administrative System @ 107
 The Treasury @ 108
 The Media @ 108
 Majlis al-Ummah @ 109

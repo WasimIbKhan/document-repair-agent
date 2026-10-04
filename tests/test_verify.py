@@ -2,7 +2,7 @@ import pytest
 from test_pdf_tools import BODY, make_pdf
 
 from toc_repair.schema import LinkedEntry
-from toc_repair.verify import verify
+from toc_repair.verify import title_score, verify
 
 HEADER = (40, 40, "A Synthetic Book", 8)
 
@@ -103,3 +103,22 @@ def test_books_without_contents_skip_completeness(tmp_path):
 
 def test_empty_proposal_is_an_error(book):
     assert verify(book, [])[0].startswith("no entries")
+
+
+@pytest.mark.parametrize("title, text", [
+    ("Legal Ruling", "Legal Ruling (Hukm Shar’i)"),
+    ("Predestined Fate and Destiny", "Al-QaDaa wal Qadar (Predestined fate and Destiny)"),
+    ("Types of Legal Rulings", "The Types of Legal Rulings (anwaa’ al-aHkaam ash-Shar’iyyah)"),
+    ("The Political Medium", "15 Political Medium"),
+])
+def test_title_matches_bracketed_and_labelled_headings(title, text):
+    assert title_score(title, text) >= 90
+
+
+@pytest.mark.parametrize("title, text", [
+    ("Legal Ruling", "Legal Rulings in Trade (Hukm Shar’i)"),
+    ("The Hadith", "The"),
+    ("Sources of Tafsir", "Sources of"),
+])
+def test_title_still_rejects_different_text(title, text):
+    assert title_score(title, text) < 90

@@ -14,13 +14,15 @@ A predicted entry matches an answer-key entry when the titles agree (fuzzy ratio
 | validation | islamic-disposition | parser | 0.30 | 1.00 | 0.47 | 1.00 | 17 / 17 | 56 | no |
 | validation | islamic-disposition | agent | 1.00 | 1.00 | 1.00 | 1.00 | 17 / 17 | 17 | yes |
 | validation | islamic-personality-2 | parser | 0.55 | 0.76 | 0.64 | 0.11 | 55 / 72 | 100 | no |
-| validation | islamic-personality-2 | agent | 1.00 | 1.00 | 1.00 | 1.00 | 72 / 72 | 72 | yes |
+| validation | islamic-personality-2 | agent | 1.00 | 0.99 | 0.99 | 0.00 | 71 / 72 | 71 | yes |
 | validation | political-concepts | parser | 0.99 | 0.99 | 0.99 | 1.00 | 85 / 86 | 86 | yes |
 | validation | political-concepts | agent | 1.00 | 1.00 | 1.00 | 1.00 | 86 / 86 | 86 | yes |
 | validation | political-thoughts | parser | 0.79 | 0.85 | 0.81 | 1.00 | 22 / 26 | 28 | no |
-| validation | political-thoughts | agent | 0.47 | 0.69 | 0.56 | 0.06 | 18 / 26 | 38 | no |
+| validation | political-thoughts | agent | 0.96 | 0.96 | 0.96 | 1.00 | 25 / 26 | 26 | yes |
 | validation | system-of-islam | parser | 0.43 | 0.48 | 0.45 | 1.00 | 15 / 31 | 35 | no |
-| validation | system-of-islam | agent | 1.00 | 1.00 | 1.00 | 1.00 | 31 / 31 | 31 | yes |
+| validation | system-of-islam | agent | 0.94 | 0.94 | 0.94 | 1.00 | 29 / 31 | 31 | yes |
+| validation | lean-startup | parser | 0.04 | 0.35 | 0.08 | 1.00 | 7 / 20 | 160 | no |
+| validation | lean-startup | agent | 0.90 | 0.90 | 0.90 | 0.94 | 18 / 20 | 20 | yes |
 
 ## Details
 
@@ -49,6 +51,8 @@ A predicted entry matches an answer-key entry when the titles agree (fuzzy ratio
 
 ### islamic-personality-2 / agent
 
+- missed (1): 'The Islamic Personality Vol'
+- wrong level (71): 'Studying Fiqh'; 'The Khilafah'; 'The Time Limit Given for Muslims to appoint a Khal'; 'Contracting (In’iqad) the Khilafah'; 'The Pledge (Bay’ah)'; 'The Conditions of Eligibility for the Khalifah'; 'Seeking the Khilafah Post'; 'The Unity of the Khilafah' (+63 more)
 
 ### political-concepts / parser
 
@@ -66,9 +70,7 @@ A predicted entry matches an answer-key entry when the titles agree (fuzzy ratio
 
 ### political-thoughts / agent
 
-- missed (8): 'Understanding the International Situation'; "The International Community, it's Norms & Laws"; 'Involvement in Politics is an Obligation Upon Musl'; 'The Ruling System in Islam is One of Unity and is '; 'Detachment between the Ummah and the State, and th'; 'Establishing Political Parties is a Fard Kifayah'; 'How can Individuals & Parties Influence Internatio'; 'The Political Issue for the Ummah and the Islamic '
-- wrong level (17): 'Political Thought'; 'Politics'; 'Political Concepts'; 'Politics is the Art of Possibilities'; 'Politics and International Politics'; 'Political Thinking'; 'Political Awareness'; 'Political Struggle' (+9 more)
-- extra (20): 'Understanding the'; 'International Situation'; 'The International Community,'; 'it\x92s Norms & Laws'; 'Involvement in Politics is an'; 'Obligation Upon Muslims'; 'AAKARSI finallast.qxd 18/08/99 20:35 PM Page'; 'The Ruling System in Islam' (+12 more)
+- wrong page (1): 'Politics'
 
 ### system-of-islam / parser
 
@@ -78,3 +80,16 @@ A predicted entry matches an answer-key entry when the titles agree (fuzzy ratio
 
 ### system-of-islam / agent
 
+- wrong page (2): 'The Intellectual Leadership of Islam'; 'The Administrative System'
+
+### lean-startup / parser
+
+- missed (12): 'Part One VISION'; '2. Define'; '3. Learn'; '4. Experiment'; 'Part Two STEER'; '5. Leap'; '6. Test'; 'Part Three ACCELERATE' (+4 more)
+- wrong page (1): '8. Pivot (or Persevere)'
+- extra (152): 'THE LEAN STARTUP'; 'Acclaim for THE LEAN STARTUP'; 'Eric Ries'; 'ORIGINS OF THE LEAN STARTUP'; 'THE LEAN STARTUP METHOD'; 'Why Startups Fail'; 'MANAGEMENT’S SECOND CENTURY'; 'ENTREPRENEURIAL MANAGEMENT' (+144 more)
+
+### lean-startup / agent
+
+- missed (2): 'Acknowledgments'; 'About the Author'
+- wrong level (1): 'Introduction'
+- extra (2): 'Endnotes'; 'Disclosures'

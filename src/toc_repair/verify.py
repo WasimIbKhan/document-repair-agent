@@ -11,13 +11,25 @@ _NUMBER_WORDS = ("one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve
 _LABEL = re.compile(rf"^(?:(?:chapter|part|section|book)\s+)?(?:\d+(?:\s\d+)*|[ivxlcdm]+|{_NUMBER_WORDS})\s+")
 
 
+_ARTICLE = re.compile(r"^(?:the|a|an)\s+")
+_BRACKETED = re.compile(r"[(\[]([^)\]]*)[)\]]?")
+
+
 def strip_label(norm: str) -> str:
-    return _LABEL.sub("", norm, count=1)
+    return _ARTICLE.sub("", _LABEL.sub("", norm, count=1), count=1)
+
+
+def _readings(text: str) -> list[str]:
+    # The whole line, the line without its bracketed part, and each bracketed part: a contents page
+    # often prints only the translation or only the main title of "Legal Ruling (Hukm Shar'i)".
+    out = [text, _BRACKETED.sub(" ", text)]
+    out += [m.group(1) for m in _BRACKETED.finditer(text) if m.group(1).strip()]
+    return [normalize(t) for t in out if normalize(t)]
 
 
 def title_score(title: str, text: str) -> float:
-    a, b = normalize(title), normalize(text)
-    return max(fuzz.ratio(a, b), fuzz.ratio(strip_label(a), strip_label(b)))
+    a = normalize(title)
+    return max(max(fuzz.ratio(a, b), fuzz.ratio(strip_label(a), strip_label(b))) for b in _readings(text))
 
 
 def _check_lines(doc: PdfDoc, n: int, e: LinkedEntry) -> str | None:

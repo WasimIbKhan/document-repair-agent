@@ -2,21 +2,21 @@
 # One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
 # doc: islamic-disposition
 # model: claude-sonnet-5
-# timestamp: 20261004-214210
+# timestamp: 20261004-230048
 # source: toc-repair-agent (agent), not yet human-verified
-# needs_human: false
-# confidence: 0.97
+# needs_human: true
+# confidence: 0.95
 
 # role: front_matter
 Introduction @ 5
 # role: chapter
-1. Hastening to adhere to the Sharee'ah @ 8
+1. Hastening to adhere to the Sharee’ah @ 8
 # role: chapter
-2. Maintain the recitation of the Qur'an @ 16
+2. Maintain the recitation of the Qur’an @ 16
 # role: chapter
 3. Love of Allah and His Messenger @ 22
 # role: chapter
-4. Love and Hate for Allah's Sake @ 30
+4. Love and Hate for Allah’s Sake @ 30
 # role: chapter
 5. Fear of Allah openly and secretly @ 48
 # role: chapter
@@ -41,3 +41,6 @@ Introduction @ 5
 15. The Etiquettes of Discussion @ 232
 # role: chapter
 16. Blessings be upon the Ghurabaa (strangers) who reform that which the people have corrupted @ 249
+
+# unresolved:
+#   {"title": "Book Contents", "reason": "this is the contents page label itself, not a body heading"}

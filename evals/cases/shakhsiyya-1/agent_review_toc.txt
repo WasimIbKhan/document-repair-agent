@@ -2,10 +2,10 @@
 # One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
 # doc: shakhsiyya-1
 # model: claude-sonnet-5
-# timestamp: 20261004-214048
+# timestamp: 20261004-225805
 # source: toc-repair-agent (agent), not yet human-verified
 # needs_human: false
-# confidence: 0.97
+# confidence: 0.95
 
 # role: part
 Personality @ 13
