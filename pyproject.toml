@@ -20,6 +20,7 @@ dev = ["pytest"]
 [project.scripts]
 toc-repair-build-layout = "toc_repair.build_layout:main"
 toc-repair-gt = "toc_repair.ground_truth:main"
+toc-repair-tool = "toc_repair.tool_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
