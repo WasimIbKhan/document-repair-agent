@@ -68,7 +68,7 @@ def test_summary_finds_contents_and_running_lines(pdf):
     assert 1 in [c["page"] for c in s["contents_pages"]]
     assert {"text": "a synthetic book", "pages": 5} in s["running_lines"]
     header = pdf.page_lines(2)[0]
-    assert header["text"] == HEADER and header.get("running") is True
+    assert header["text"] == HEADER and header["margin"] is True and header["repeats_on_pages"] == 5
 
 
 def test_search_ignores_diacritics(pdf):
@@ -83,12 +83,12 @@ def test_find_heading_joins_split_lines(pdf):
     assert top["score"] == 100 and top["size"] == 21.0
 
 
-def test_find_heading_prefers_heading_and_skips_running(pdf):
+def test_find_heading_ranks_heading_first_and_flags_header(pdf):
     top = pdf.find_heading("Sources of Tafsīr", near_page=4)["candidates"][0]
     assert top["ids"] == ids_of(pdf, 4, "Sources of Tafsīr") and top["bold"] and top["size"] == 14.0
-    running = {ln["id"] for p in range(2, 7) for ln in pdf.page_lines(p) if ln.get("running")}
-    cands = pdf.find_heading(HEADER, near_page=4)["candidates"]
-    assert not running & {i for c in cands for i in c["ids"]}
+    assert "margin" not in top
+    header = pdf.find_heading(HEADER, near_page=4)["candidates"][0]
+    assert header["margin"] is True and header["repeats_on_pages"] == 5
 
 
 def test_out_of_range_page_is_actionable(pdf):

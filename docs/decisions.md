@@ -146,3 +146,23 @@ Why: the text layer already gives every line's size, boldness and position, whic
 Chosen: keep it low: at most 20 page images per book for now. I suppose you can't have more than 20 heading 1s in most books.
 
 Consequence: every run logs how many images it used, so the evals show whether the cap is ever reached. Images stay in the conversation and are paid for again on every later turn, so the real cost of an image is higher than one call.
+
+## 2026-10-04: Tools report facts, the agent and the Skill decide
+
+Options: let the tools hide lines that look like running headers, or report what they see and leave the call to the agent and the Skill.
+
+Chosen: leave that call to the agent and the Skill. Tools flag a line as sitting in the page margin and say how many pages the same margin text repeats on. They never hide it.
+
+Why: a chapter title can also be the running header. In Shakhsiyya, "Sources of Tafsīr" appears both as the 14pt heading and as a 10pt header on two pages. Hiding is a judgement, and judgements belong to the agent with the Skill's guidance, where they can be seen in the transcript and measured.
+
+## 2026-10-04: Checker rules
+
+Chosen: all six, as proposed.
+1. The PDF's own text at the cited line ids must match the title.
+2. Levels may not jump more than one step deeper.
+3. Pages may not go backwards.
+4. Levels must agree with the contents page indentation when there is a contents page. This is the Qadar mistake.
+5. Budget: about 40 tool calls and at most 20 page images per book.
+6. If the checker rejects an answer, the agent gets the errors back once to fix them. If it fails again, fall back and flag the book for a human.
+
+Why: the model is never trusted without verification, and every rule is checked by code against the PDF, not by another model.

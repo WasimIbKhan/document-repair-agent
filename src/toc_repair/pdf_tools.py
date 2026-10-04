@@ -93,17 +93,27 @@ class PdfDoc:
             yield from self._raw_lines(p)
 
     @property
-    def running(self) -> dict[str, int]:
+    def repeats(self) -> dict[str, int]:
         if self._running is None:
             pages: dict[str, set[int]] = {}
             for ln in self._all_lines():
                 if ln["band"] and ln["key"] and not ln["key"].isdigit():
                     pages.setdefault(ln["key"], set()).add(ln["page"])
-            self._running = {t: len(ps) for t, ps in pages.items() if len(ps) >= 3}
+            self._running = {t: len(ps) for t, ps in pages.items() if len(ps) >= 2}
         return self._running
 
-    def _is_running(self, ln: dict) -> bool:
-        return ln["band"] and ln["key"] in self.running
+    @property
+    def running(self) -> dict[str, int]:
+        return {t: n for t, n in self.repeats.items() if n >= 3}
+
+    def _flags(self, lines: list[dict]) -> dict:
+        out = {}
+        if any(ln["band"] for ln in lines):
+            out["margin"] = True
+        n = max((self.repeats.get(ln["key"], 0) for ln in lines if ln["band"]), default=0)
+        if n:
+            out["repeats_on_pages"] = n
+        return out
 
     def page_map(self) -> dict:
         if self._page_map is not None:
@@ -174,8 +184,7 @@ class PdfDoc:
         out = {"id": ln["id"], "text": ln["text"], "size": ln["size"], "bold": ln["bold"]}
         if detail == "detailed":
             out.update(bbox=ln["bbox"], font=ln["font"], y=ln["y"])
-        if self._is_running(ln):
-            out["running"] = True
+        out.update(self._flags([ln]))
         return out
 
     def page_lines(self, page: int, detail: str = "concise") -> list[dict]:
@@ -211,9 +220,8 @@ class PdfDoc:
         best: dict[str, tuple] = {}
         for p in range(lo, hi + 1):
             lines = self._raw_lines(p)
-            keep = [ln for ln in lines if not self._is_running(ln)]
-            for i, ln in enumerate(keep):
-                groups = [[ln]] + ([[ln, keep[i + 1]]] if i + 1 < len(keep) else [])
+            for i, ln in enumerate(lines):
+                groups = [[ln]] + ([[ln, lines[i + 1]]] if i + 1 < len(lines) else [])
                 for g in groups:
                     score = _score(q, " ".join(x["norm"] for x in g))
                     size = max(x["size"] for x in g)
@@ -229,6 +237,7 @@ class PdfDoc:
                 "score": round(-key[0], 1), "size": -key[1], "bold": any(x["bold"] for x in g),
                 "context_before": lines[first - 1]["text"][:80] if first > 0 else "",
                 "context_after": lines[last + 1]["text"][:80] if last + 1 < len(lines) else "",
+                **self._flags(g),
             })
         return {"searched_pages": [lo, hi], "candidates": cands}
 

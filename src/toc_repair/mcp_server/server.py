@@ -42,15 +42,17 @@ def pdf_summary(doc_id: str) -> dict:
     (sizes larger than body, with character counts, so you know what a heading looks like); page_map
     (offset = PDF page minus printed page number, with agreement share, exceptions as [pdf_page, printed],
     and the PDF page range carrying roman folios); contents_pages (likely table-of-contents pages, 1-based);
-    running_lines (normalized header/footer texts repeated on many pages, which are never headings)."""
+    running_lines (normalized texts in the top or bottom margin that repeat on 3+ pages, with page counts)."""
     return open_case(doc_id).summary()
 
 
 @tool
 def pdf_page_lines(doc_id: str, page: int, detail: Literal["concise", "detailed"] = "concise") -> list[dict]:
     """All text lines of one PDF page (1-based, as a viewer shows it) in reading order, from the PDF's own
-    text layer. Each line: id (cite this), text, size (pt), bold; running=true marks a repeated header or
-    footer. detail="detailed" adds bbox, font and y (top of the line as a fraction of page height). Use it to
+    text layer. Each line: id (cite this), text, size (pt), bold; margin=true when it sits in the top or
+    bottom 8% of the page, and repeats_on_pages=n when the same margin text appears on n pages. These are
+    facts, not verdicts: a chapter title can also appear as a running header, so decide from size,
+    position and context. detail="detailed" adds bbox, font and y (top of the line as a fraction of page height). Use it to
     read a contents page or to inspect a page when pdf_find_heading's candidates are unclear."""
     return open_case(doc_id).page_lines(page, detail)
 
