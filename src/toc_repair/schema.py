@@ -105,3 +105,23 @@ class TocResult(BaseModel):
             if e.level < 1 or e.page < 0:
                 raise ValueError(f"bad entry {e.title!r}: level={e.level} page={e.page}")
         return self
+
+
+Role = Literal["part", "chapter", "section", "front_matter", "back_matter"]
+
+
+class LinkedEntry(BaseModel):
+    title: str = Field(min_length=1)
+    level: int = Field(ge=1)
+    page: int = Field(ge=1, description="1-based PDF page")
+    line_ids: list[str] = Field(min_length=1, max_length=6)
+    role: Role | None = None
+
+
+class AgentResult(BaseModel):
+    doc_id: str
+    entries: list[LinkedEntry]
+    unresolved: list[dict] = []
+    confidence: float = Field(ge=0, le=1)
+    needs_human: bool = False
+    source: Literal["agent", "fallback"]

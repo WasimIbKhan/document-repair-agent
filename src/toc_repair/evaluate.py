@@ -42,14 +42,14 @@ def run(predictors: list[str], splits: list[str], cases_dir: Path = EVALS_DIR / 
 
 
 def table(rows: list[dict]) -> str:
-    out = ["| split | case | predictor | precision | recall | level acc | matched / truth | predicted | pass |",
-           "|---|---|---|---|---|---|---|---|---|"]
+    out = ["| split | case | predictor | precision | recall | F1 | level acc | matched / truth | predicted | pass |",
+           "|---|---|---|---|---|---|---|---|---|---|"]
     for r in rows:
         if "skipped" in r:
-            out.append(f"| {r['split']} | {r['case']} | - | - | - | - | - | - | {r['skipped']} |")
+            out.append(f"| {r['split']} | {r['case']} | - | - | - | - | - | - | - | {r['skipped']} |")
             continue
         out.append(f"| {r['split']} | {r['case']} | {r['predictor']} | {r['precision']:.2f} | {r['recall']:.2f} | "
-                   f"{r['level_accuracy']:.2f} | {r['n_matched']} / {r['n_truth']} | {r['n_predicted']} | "
+                   f"{r['f1']:.2f} | {r['level_accuracy']:.2f} | {r['n_matched']} / {r['n_truth']} | {r['n_predicted']} | "
                    f"{'yes' if r['passed'] else 'no'} |")
     return "\n".join(out)
 

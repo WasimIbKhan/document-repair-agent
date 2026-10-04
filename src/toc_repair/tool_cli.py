@@ -53,7 +53,8 @@ def main(argv=None) -> int:
         if name in ("lines", "render", "contents"):
             p.add_argument("page", type=int)
         if name == "find-many":
-            p.add_argument("items", help="JSON file with [{title, near_page}, ...], or - to read it from stdin")
+            p.add_argument("items", help="JSON file with [{title, near_page, level?}, ...] (near_page null = search "
+                                          "forward from the previous item), or - to read it from stdin")
             p.add_argument("--window", type=int, default=3)
         if name == "lines":
             p.add_argument("--detail", choices=["concise", "detailed"], default="concise")

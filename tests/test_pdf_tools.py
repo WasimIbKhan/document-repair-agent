@@ -117,12 +117,57 @@ def test_find_headings_returns_compact_rows(pdf):
     assert rows[0]["best"]["ids"] == ids_of(pdf, 3, "Part One") + ids_of(pdf, 3, "VISION")
     assert rows[1]["best"]["ids"] == ids_of(pdf, 4, "Sources of Tafsīr") and rows[1]["best"]["bold"]
     for r in rows:
-        assert set(r) == {"title", "near_page", "best", "runner_up"}
+        assert set(r) == {"title", "near_page", "searched_pages", "best", "runner_up", "status", "flags"}
         assert r["runner_up"]["score"] <= r["best"]["score"]
         assert set(r["runner_up"]) <= {"ids", "page", "score", "size", "margin"}
         assert not any(k.startswith("context") for k in r["best"])
     with pytest.raises(ValueError, match="101 items is over the limit of 100"):
         pdf.find_headings([{"title": "Notes", "near_page": 2}] * 101)
+
+
+def test_find_headings_flags(pdf):
+    rows = pdf.find_headings([
+        {"title": "Part One VISION", "near_page": 3, "level": 1},
+        {"title": "Sources of Tafsīr", "near_page": 4, "level": 1},
+        {"title": "Chapter Four", "near_page": 5, "level": 1},
+        {"title": HEADER, "near_page": 2},
+        {"title": "Body text line", "near_page": 2},
+        {"title": "Notes", "near_page": 99},
+    ])
+    part, tafsir, missing, header, dup, bad = rows
+    assert part["status"] == "ok" and part["flags"] == [] and part["searched_pages"] == [1, 6]
+    assert tafsir["flags"] == ["size_mismatch"] and tafsir["status"] == "check"
+    assert missing["flags"] == ["not_found", "low_score"]
+    assert header["flags"] == ["in_margin", "close_runner_up"]
+    assert dup["flags"] == ["close_runner_up"]
+    assert bad["status"] == "check" and bad["flags"] == ["not_found"] and "error" in bad
+
+
+def test_find_headings_size_mismatch_against_level_median(tmp_path):
+    pages = [[(40, 100, title, size), *[(40, 200 + 16 * i, line, 11) for i, line in enumerate(BODY)]]
+             for title, size in (("Alpha Heading", 20), ("Beta Heading", 20), ("Gamma Heading", 12))]
+    doc = make_pdf(tmp_path / "m.pdf", pages)
+    rows = doc.find_headings([{"title": t, "near_page": p, "level": 1}
+                              for p, t in enumerate(("Alpha Heading", "Beta Heading", "Gamma Heading"), 1)],
+                             window=0)
+    assert [r["flags"] for r in rows] == [[], [], ["size_mismatch"]]
+
+
+def test_find_headings_forward_search_without_page_numbers(tmp_path):
+    body = [(40, 200 + 16 * i, line, 11) for i, line in enumerate(BODY)]
+    doc = make_pdf(tmp_path / "f.pdf", [
+        [(150, 60, "Contents", 14), (40, 100, "Opening", 11), (40, 120, "Closing", 11)],
+        [(40, 30, "Closing", 8), *body],
+        [(40, 100, "Opening", 18), *body],
+        body,
+        [(40, 100, "Opening", 18), (40, 140, "Closing", 18), *body],
+    ])
+    rows = doc.find_headings([{"title": "Opening", "near_page": None}, {"title": "Closing", "near_page": None},
+                              {"title": "Nowhere To Be Found", "near_page": None}])
+    opening, closing, nowhere = rows
+    assert opening["best"]["page"] == 3 and opening["searched_pages"] == [1, 3] and opening["status"] == "ok"
+    assert closing["best"]["page"] == 5 and closing["searched_pages"] == [3, 5]
+    assert nowhere["searched_pages"] == [5, 5] and "not_found" in nowhere["flags"]
 
 
 def test_contents_view_pairs_numbers_wraps_titles_and_ranks_indents(tmp_path):

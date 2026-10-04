@@ -12,6 +12,7 @@ dependencies = [
     "pymupdf>=1.24",
     "rapidfuzz",
     "mcp>=2.3",
+    "claude-agent-sdk>=0.2.163",
 ]
 
 [project.optional-dependencies]
@@ -21,6 +22,7 @@ dev = ["pytest"]
 toc-repair-build-layout = "toc_repair.build_layout:main"
 toc-repair-gt = "toc_repair.ground_truth:main"
 toc-repair-tool = "toc_repair.tool_cli:main"
+toc-repair-agent = "toc_repair.agent.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

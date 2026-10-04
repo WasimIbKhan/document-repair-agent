@@ -1,5 +1,5 @@
 import functools
-from typing import Literal, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
 from mcp.server.mcpserver import Image, MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
@@ -85,18 +85,23 @@ def pdf_find_heading(doc_id: str, title: str, near_page: int, window: int = 3) -
 
 class HeadingQuery(TypedDict):
     title: str
-    near_page: int
+    near_page: int | None
+    level: NotRequired[int]
 
 
 @tool
 def pdf_find_headings(doc_id: str, items: list[HeadingQuery], window: int = 3) -> list[dict]:
     """Link many contents entries in one call: the same ranking as pdf_find_heading, for up to 100 items
-    of {title, near_page} (near_page is the 1-based PDF page, ±window pages are searched). Returns one
-    compact row per item, in order: {title, near_page, best, runner_up}. best is {ids, page, text, score,
-    size, bold, margin?, repeats_on_pages?} or null; runner_up is {ids, page, score, size, margin?} or null.
-    No context lines. Accept rows whose best is strong and clearly ahead; check rows whose best has a weak
-    score, sits in the margin, or is close to the runner-up with pdf_find_heading or pdf_page_lines.
-    A bad item gets an error field instead of failing the whole call."""
+    of {title, near_page, level?}. near_page is the 1-based PDF page (±window pages are searched); set it to
+    null when the book prints no page numbers, and the search runs forward from the page where the previous
+    item was found (page 1 for the first, skipping contents pages) and takes the earliest page with a
+    non-margin line scoring >= 90. Returns one compact row per item, in order: {title, near_page, level?,
+    searched_pages, best, runner_up, status, flags}. best is {ids, page, text, score, size, bold, margin?,
+    repeats_on_pages?} or null; runner_up is {ids, page, score, size, margin?} or null. status is "ok" or
+    "check"; flags say why: low_score (best < 95), in_margin, close_runner_up (a different line within 3
+    points), size_mismatch (best size more than 1pt off the median for its level in this batch; needs
+    level), not_found (nothing scores >= 80). Trust "ok" rows; check the rest with pdf_find_heading or
+    pdf_page_lines. A bad item gets an error field instead of failing the whole call."""
     return open_case(doc_id).find_headings(items, window)
 
 

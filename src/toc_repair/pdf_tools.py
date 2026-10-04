@@ -1,5 +1,6 @@
 import math
 import re
+import statistics
 from collections import Counter
 from pathlib import Path
 
@@ -15,6 +16,11 @@ BAND = 0.08
 PARTIAL_CAP = 95
 MAX_RUN = 3
 MAX_BATCH = 100
+OK_SCORE = 95
+FORWARD_SCORE = 90
+FOUND_SCORE = 80
+RUNNER_UP_GAP = 3
+SIZE_TOLERANCE = 1
 CONTENTS_TITLES = ("contents", "table of contents")
 _ARABIC = re.compile(r"^\d{1,4}$")
 _TRAILING_NUMBER = re.compile(r"^(.*?)[\s.·…_]+(\d{1,4})$")
@@ -22,7 +28,8 @@ _LETTER = re.compile(r"[^\W\d_]")
 _ROMAN = re.compile(r"^(x{0,3})(ix|iv|v?i{0,3})$", re.I)
 _ENDS_NUMBER = re.compile(r"\d{1,4}$")
 _EDGE_NUMBER = re.compile(r"^\d+\s+|\s+\d+$")
-_PDF_KEY = re.compile(r'"pdf"\s*:\s*"((?:[^"\\]|\\.)*)"')
+_LINE_ID = re.compile(r"^p(\d+)-l(\d+)$")
+_PDF_KEY =re.compile(r'"pdf"\s*:\s*"((?:[^"\\]|\\.)*)"')
 
 
 def _roman_value(text: str) -> int | None:
@@ -32,6 +39,32 @@ def _roman_value(text: str) -> int | None:
     tens, rest = m.groups()
     ones = {"": 0, "i": 1, "ii": 2, "iii": 3, "iv": 4, "v": 5, "vi": 6, "vii": 7, "viii": 8, "ix": 9}
     return 10 * len(tens) + ones[rest.lower()]
+
+
+def _flag_rows(rows: list[dict]) -> None:
+    sizes: dict[int, list[float]] = {}
+    for r in rows:
+        if r.get("best") and isinstance(r.get("level"), int):
+            sizes.setdefault(r["level"], []).append(r["best"]["size"])
+    medians = {lv: statistics.median(v) for lv, v in sizes.items()}
+    for r in rows:
+        if "error" in r:
+            continue
+        best, second, flags = r["best"], r["runner_up"], []
+        if best is None or best["score"] < FOUND_SCORE:
+            flags.append("not_found")
+        if best is not None:
+            if best["score"] < OK_SCORE:
+                flags.append("low_score")
+            if best.get("margin"):
+                flags.append("in_margin")
+            if (second and second["score"] >= best["score"] - RUNNER_UP_GAP
+                    and not (second.get("margin") and not best.get("margin"))
+                    and (second["page"] != best["page"] or not set(second["ids"]) & set(best["ids"]))):
+                flags.append("close_runner_up")
+            if r.get("level") in medians and abs(best["size"] - medians[r["level"]]) > SIZE_TOLERANCE:
+                flags.append("size_mismatch")
+        r["status"], r["flags"] = ("check" if flags else "ok"), flags
 
 
 def _score(q: str, t: str) -> float:
@@ -92,6 +125,14 @@ class PdfDoc:
                     })
             self._lines[page] = out
         return self._lines[page]
+
+    def line(self, line_id: str) -> dict | None:
+        m = _LINE_ID.match(line_id) if isinstance(line_id, str) else None
+        if not m or not 1 <= int(m.group(1)) <= self.page_count:
+            return None
+        lines = self._raw_lines(int(m.group(1)))
+        index = int(m.group(2))
+        return lines[index] if index < len(lines) else None
 
     def _all_lines(self):
         for p in range(1, self.page_count + 1):
@@ -220,22 +261,42 @@ class PdfDoc:
                            "or find_heading with near_page to search a few pages only")
         return out
 
-    def _rank(self, title: str, near_page: int, window: int) -> tuple[list[int], list[tuple]]:
-        self._check(near_page)
+    def _query(self, title) -> str:
         if not isinstance(title, str) or not normalize(title):
             raise ValueError("title has no letters or digits; give the heading text as printed in the contents")
-        q = normalize(title)
-        lo, hi = max(1, near_page - window), min(self.page_count, near_page + window)
+        return normalize(title)
+
+    def _rank_pages(self, q: str, pages, anchor: int) -> list[tuple]:
         best: dict[str, tuple] = {}
-        for p in range(lo, hi + 1):
+        for p in pages:
             lines = self._raw_lines(p)
             for i, ln in enumerate(lines):
                 for g in (lines[i:i + k] for k in range(1, min(MAX_RUN, len(lines) - i) + 1)):
                     score = _score(q, " ".join(x["norm"] for x in g))
-                    key = (-score, -max(x["size"] for x in g), abs(p - near_page), ln["index"])
+                    key = (-score, -max(x["size"] for x in g), abs(p - anchor), ln["index"])
                     if ln["id"] not in best or key < best[ln["id"]][0]:
                         best[ln["id"]] = (key, g, lines)
-        return [lo, hi], sorted(best.values(), key=lambda v: v[0])
+        return sorted(best.values(), key=lambda v: v[0])
+
+    def _rank(self, title: str, near_page: int, window: int) -> tuple[list[int], list[tuple]]:
+        self._check(near_page)
+        q = self._query(title)
+        lo, hi = max(1, near_page - window), min(self.page_count, near_page + window)
+        return [lo, hi], self._rank_pages(q, range(lo, hi + 1), near_page)
+
+    def _forward(self, title: str, start: int) -> tuple[list[int], list[tuple]]:
+        q = self._query(title)
+        skip = {c["page"] for c in self.contents_pages()}
+        ranked: list[tuple] = []
+        for p in range(start, self.page_count + 1):
+            if p in skip:
+                continue
+            here = self._rank_pages(q, [p], start)
+            ranked += here
+            hit = next((r for r in here if -r[0][0] >= FORWARD_SCORE and not any(x["band"] for x in r[1])), None)
+            if hit:
+                return [start, p], [hit] + sorted((r for r in ranked if r is not hit), key=lambda v: v[0])
+        return [start, self.page_count], sorted(ranked, key=lambda v: v[0])
 
     def _candidate(self, key: tuple, g: list[dict]) -> dict:
         return {"ids": [x["id"] for x in g], "page": g[0]["page"], "text": " / ".join(x["text"] for x in g),
@@ -257,20 +318,29 @@ class PdfDoc:
         if len(items) > MAX_BATCH:
             raise ValueError(f"{len(items)} items is over the limit of {MAX_BATCH} per call; "
                              f"split the contents into batches of at most {MAX_BATCH}")
-        rows = []
+        rows, cursor = [], 1
         for n, item in enumerate(items):
             item = item if isinstance(item, dict) else {}
             row = {"title": item.get("title"), "near_page": item.get("near_page")}
+            if item.get("level") is not None:
+                row["level"] = item["level"]
             try:
-                _, ranked = self._rank(row["title"], row["near_page"], window)
+                if row["near_page"] is None:
+                    searched, ranked = self._forward(row["title"], cursor)
+                else:
+                    searched, ranked = self._rank(row["title"], row["near_page"], window)
             except ValueError as err:
-                rows.append({**row, "error": f"item {n}: {err}"})
+                rows.append({**row, "error": f"item {n}: {err}", "status": "check", "flags": ["not_found"]})
                 continue
             top = [self._candidate(key, g) for key, g, _ in ranked[:2]]
+            row["searched_pages"] = searched
             row["best"] = top[0] if top else None
             row["runner_up"] = ({k: top[1][k] for k in ("ids", "page", "score", "size", "margin") if k in top[1]}
                                 if len(top) > 1 else None)
+            if row["best"] and row["best"]["score"] >= FOUND_SCORE:
+                cursor = row["best"]["page"]
             rows.append(row)
+        _flag_rows(rows)
         return rows
 
     def _contents_rows(self, page: int) -> list[dict]:

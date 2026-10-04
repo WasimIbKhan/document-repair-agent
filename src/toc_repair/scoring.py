@@ -53,6 +53,7 @@ def score(predicted: list[dict], truth: list[dict], title_threshold: float = TIT
     return {
         "precision": precision,
         "recall": recall,
+        "f1": 2 * precision * recall / (precision + recall) if precision + recall else 0.0,
         "level_accuracy": (n - len(wrong_level)) / n if n else 0.0,
         "passed": precision >= PASS_PRECISION and recall >= PASS_RECALL,
         "n_predicted": len(predicted),

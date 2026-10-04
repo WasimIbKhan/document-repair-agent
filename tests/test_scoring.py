@@ -9,7 +9,7 @@ TRUTH = [
 
 def test_perfect_prediction_passes():
     r = score([dict(e) for e in TRUTH], TRUTH)
-    assert (r["precision"], r["recall"], r["level_accuracy"], r["passed"]) == (1.0, 1.0, 1.0, True)
+    assert (r["precision"], r["recall"], r["f1"], r["level_accuracy"], r["passed"]) == (1.0, 1.0, 1.0, 1.0, True)
 
 
 def test_levels_compared_by_nesting_not_raw_numbers():
@@ -31,6 +31,7 @@ def test_truncated_title_wrong_page_wrong_level_and_extra():
     assert [m["title"] for m in r["missed"]] == ["Sources of Tafsīr"]
     assert {e["title"] for e in r["extra"]} == {"Sources of", "Dear Eric,"}
     assert r["precision"] == 0.25 and round(r["recall"], 2) == 0.33 and not r["passed"]
+    assert round(r["f1"], 3) == round(2 * 0.25 * (1 / 3) / (0.25 + 1 / 3), 3)
 
 
 def test_level_mismatch_counted_on_matched_only():
@@ -46,5 +47,5 @@ def test_diacritics_and_case_do_not_block_a_match():
 
 
 def test_empty_inputs():
-    assert score([], TRUTH)["recall"] == 0.0
+    assert score([], TRUTH)["recall"] == 0.0 and score([], TRUTH)["f1"] == 0.0
     assert score(TRUTH, [])["precision"] == 0.0
