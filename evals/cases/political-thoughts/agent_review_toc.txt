@@ -1,0 +1,47 @@
+# Agent-proposed TOC. Correct this file, then save it as ground_truth_toc.txt
+# One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
+# doc: political-thoughts
+# model: claude-sonnet-5
+# timestamp: 20261004-214550
+# source: toc-repair-agent (fallback), not yet human-verified
+# needs_human: true
+# confidence: 0.658
+
+Introduction @ 5
+  Political Thought @ 7
+    Politics @ 7
+    Political Concepts @ 22
+    Politics is the Art of Possibilities @ 24
+    Politics and International Politics @ 26
+    Understanding the @ 29
+    International Situation @ 29
+    The International Community, @ 33
+    its Norms & Laws @ 33
+    Political Thinking @ 41
+    Political Awareness @ 54
+    Political Struggle @ 61
+    Political Actions @ 63
+    Political Experience @ 66
+    Involvement in Politics is an @ 68
+    Obligation Upon Muslims @ 68
+AAKARSI finallast.qxd 18/08/99 20:35 PM Page @ 68
+  The Statesman @ 72
+  The Political Medium @ 77
+  Vacuum @ 85
+  Ruling in Islam @ 88
+  The Ruling System in Islam @ 93
+  is One of Unity and is Not Federal @ 95
+  The Public Responsibilities @ 97
+  Detachment between the Ummah @ 105
+  and the State, and the @ 105
+  Obligation of Accounting @ 105
+  Establishing Political Parties @ 108
+  is a Fard Kifayah @ 108
+  How can Individuals & Parties @ 112
+  Influence International Politics @ 112
+  & the States direction? @ 112
+  Democracy is a System of Kufr @ 114
+  The Political Issue for @ 119
+  the Ummah and the Islamic State @ 119
+  The Vital Issue @ 122
+AAKARSI finallast.qxd 18/08/99 20:35 PM Page @ 122

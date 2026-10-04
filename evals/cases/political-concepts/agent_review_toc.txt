@@ -1,0 +1,181 @@
+# Agent-proposed TOC. Correct this file, then save it as ground_truth_toc.txt
+# One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
+# doc: political-concepts
+# model: claude-sonnet-5
+# timestamp: 20261004-214430
+# source: toc-repair-agent (agent), not yet human-verified
+# needs_human: false
+# confidence: 0.93
+
+# role: chapter
+1. What Is Politics? @ 5
+# role: chapter
+2. The International Situation @ 6
+# role: chapter
+3. Political Idea And Method @ 7
+  # role: section
+  3.1 Ideological Powers @ 7
+  # role: section
+  3.2 The Political Idea And Method In Communism @ 7
+    # role: section
+    3.2.1 The Issue of Nationalism in Communism @ 8
+    # role: section
+    3.2.2 The Idea Of Contradictions In Communism @ 9
+    # role: section
+    3.2.3 Communist View Of Co-Existence @ 9
+  # role: section
+  3.3 The Political Idea And Method In Capitalism @ 10
+# role: chapter
+4. A New Colonialism @ 11
+  # role: section
+  4.1 British Plans In Muslim Lands @ 11
+  # role: section
+  4.2 American Plan For Germany @ 12
+  # role: section
+  4.3 Soviet Plan in The Far East @ 12
+  # role: section
+  4.4 Changing The Political Plans And Means @ 12
+# role: chapter
+5. The International Situation @ 14
+  # role: section
+  5.1 The World Leading State @ 15
+  # role: section
+  5.2 Struggle For The Position Of Leading Power @ 16
+  # role: section
+  5.3 British Struggle Against The US @ 16
+  # role: section
+  5.4 USA Uses The UNO @ 17
+  # role: section
+  5.5 International Tradition @ 18
+  # role: section
+  5.6 The Spread Of Islam In Europe @ 19
+  # role: section
+  5.7 Establishment Of International Law @ 20
+  # role: section
+  5.8 World Balance And International Conferences @ 21
+  # role: section
+  5.8 Formation Of The League Of Nations @ 21
+  # role: section
+  5.10 Development Of The International Situation Prior To WWII @ 22
+  # role: section
+  5.11 Post WWII Ideological Blocs @ 23
+  # role: section
+  5.12 Rivalry In The Western Bloc @ 23
+  # role: section
+  5.13 Eastern Bloc Policy @ 25
+  # role: section
+  5.14 The Socialist Basis In Russia @ 26
+  # role: section
+  5.15 Rapproachment Between The US and USSR @ 26
+  # role: section
+  5.16 1961 US/USSR Agreement @ 27
+  # role: section
+  5.17 US/USSR Pressure On Chna @ 27
+  # role: section
+  5.18 Plans Towards England @ 28
+  # role: section
+  5.19 Plans Towards Germany @ 28
+  # role: section
+  5.20 Post 1961 International Situation @ 28
+# role: chapter
+6. Changing World Powers @ 30
+  # role: section
+  6.1 Motives Behind Global Struggle @ 30
+  # role: section
+  6.2 The Concept Of World Peace @ 31
+  # role: section
+  6.3 International Conferences @ 32
+  # role: section
+  6.4 International Alliances @ 32
+  # role: section
+  6.5 World Political Actions @ 33
+# role: chapter
+7. The Issue Of Europe @ 35
+# role: chapter
+8. The Issue Of The Middle East @ 37
+  # role: section
+  8.1 Colonisation Of The Middle East @ 37
+  # role: section
+  8.2 The Nature Of Nations @ 38
+  # role: section
+  8.3 The Anglo-American Conflict in The Middle East @ 40
+  # role: section
+  8.4 1950 Istanbul conference @ 40
+  # role: section
+  8.5 America Leaves Its Isolationism @ 42
+  # role: section
+  8.6 Conflict In Syria..... Again @ 43
+  # role: section
+  8.7 English Plans In The Middle East @ 45
+# role: chapter
+9. The Issue The Far East @ 46
+  # role: section
+  9.1 British Policy In The Far East @ 46
+  # role: section
+  9.2 French Policy In The Far East @ 46
+  # role: section
+  9.3 American Calls For Independence In The Region @ 47
+  # role: section
+  9.4 Liberation In The Far East @ 48
+# role: chapter
+10. The Issue Of Africa @ 49
+  # role: section
+  10.1 The Idea Of Positive Neutrality @ 49
+# role: chapter
+11. Political Traps @ 51
+  # role: section
+  11.1 The US and China @ 51
+  # role: section
+  11.2 The US and Europe @ 52
+  # role: section
+  11.3 The US and Germany @ 52
+  # role: section
+  11.4 The Cuban Missiles @ 52
+  # role: section
+  11.5 Neutrality Of Turkey In WWII @ 53
+  # role: section
+  11.6 1968 Middle East Crisis @ 55
+  # role: section
+  11.7 Russian Invasion Of Czechoslovakia @ 55
+# role: chapter
+12. The Major World Powers @ 56
+  # role: section
+  12.1 The Growth Of The US As A World Power @ 57
+  # role: section
+  12.2 England @ 58
+  # role: section
+  12.3 France @ 60
+  # role: section
+  12.4 The Soviet Union @ 61
+  # role: section
+  12.5 Germany @ 62
+# role: chapter
+13. The International community @ 64
+  # role: section
+  13.1 The Concept Of International Law @ 64
+  # role: section
+  13.2 International society @ 65
+  # role: section
+  13.3 International Law @ 66
+  # role: section
+  13.4 International Tradition @ 67
+  # role: section
+  13.5 International Alliances @ 68
+  # role: section
+  13.6 The Issue Of Colonialism @ 69
+  # role: section
+  13.7 Colonialism And Capitalism @ 69
+# role: chapter
+14. The Role Of Politicians On International Politics @ 71
+# role: chapter
+15. The Role Of The Islamic State @ 72
+# role: chapter
+16. Political Awareness @ 73
+  # role: section
+  16.1 Examples of The Special Angle @ 74
+  # role: section
+  16.2 Importance Of Political Awareness To Muslims @ 75
+  # role: section
+  16.3 Essence Of Political Awareness @ 75
+  # role: section
+  16.4 Political Education @ 76

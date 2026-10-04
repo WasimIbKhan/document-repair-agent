@@ -1,0 +1,47 @@
+# Agent-proposed TOC. Correct this file, then save it as ground_truth_toc.txt
+# One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
+# doc: system-of-islam
+# model: claude-sonnet-5
+# timestamp: 20261004-214711
+# source: toc-repair-agent (fallback), not yet human-verified
+# needs_human: true
+# confidence: 0.417
+
+The Way to Belief @ 6
+Predestined Fate and Destiny @ 16
+The Intellectual Leadership of Islam @ 38
+The Way to Carry the Islamic Da'wah @ 57
+The Islamic Civilisation @ 62
+The System of Islam @ 67
+Legal Ruling @ 73
+Types of Legal Rulings @ 75
+Sunnah @ 76
+Emulating the Actions of the Messenger (saw) @ 77
+Adopting Legal Rulings @ 79
+Constitution and Canon @ 81
+A Draft Constitution @ 86
+General Rulings @ 87
+The Ruling System @ 90
+The Khaleefah @ 91
+The Governers @ 91
+The Amir of Jihad – the Military Department – the Army @ 101
+The Internal Security @ 102
+The Department of Foreign Affairs @ 103
+The Department of Industry @ 103
+The Judiciary @ 103
+The Administrative System @ 104
+The Treasury @ 108
+The Media @ 108
+Majlis al-Ummah @ 109
+The Social System @ 111
+The Economic System @ 112
+Education Policy @ 120
+Foreign Policy @ 122
+Morals in Islam @ 125
+
+# unresolved:
+#   {"title": "Assistants", "printed_page": 97, "reason": "no line scores >= 80"}
+#   {"title": "Assistant of Execution", "printed_page": 98, "reason": "no line scores >= 80"}
+#   {"title": "For exact meanings of words and sentences, please refer to the original Arabic", "printed_page": null, "reason": "no line scores >= 80"}
+#   {"title": "book Nizaam ul-Islam, 6th edition.", "printed_page": null, "reason": "no line scores >= 80"}
+#   {"title": "[TMQ is Translation of the Meaning of Qur’an]", "printed_page": null, "reason": "no line scores >= 80"}

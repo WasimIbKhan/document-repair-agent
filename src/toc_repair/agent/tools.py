@@ -2,6 +2,7 @@ import base64
 import json
 from collections import Counter
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from claude_agent_sdk import SdkMcpTool, ToolAnnotations, create_sdk_mcp_server, tool
 from pydantic import BaseModel, Field, ValidationError
@@ -218,6 +219,10 @@ def propose(doc: PdfDoc, state: RunState, args: dict) -> tuple[bool, str]:
         errors = verify(doc, p.entries)
     except ValidationError as err:
         p, errors = None, [f"invalid proposal: {_validation_message(err)}"]
+    if state.log_path is not None:
+        attempt = Path(state.log_path).with_name(f"proposal_{state.attempts}.json")
+        attempt.write_text(json.dumps({"proposal": args, "errors": errors}, ensure_ascii=False, indent=1),
+                           encoding="utf-8")
     if not errors:
         state.result = AgentResult(doc_id=state.doc_id, entries=p.entries, unresolved=p.unresolved,
                                    confidence=p.confidence, needs_human=bool(p.unresolved), source="agent")

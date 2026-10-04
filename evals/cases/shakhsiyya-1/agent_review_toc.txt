@@ -1,0 +1,153 @@
+# Agent-proposed TOC. Correct this file, then save it as ground_truth_toc.txt
+# One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
+# doc: shakhsiyya-1
+# model: claude-sonnet-5
+# timestamp: 20261004-214048
+# source: toc-repair-agent (agent), not yet human-verified
+# needs_human: false
+# confidence: 0.97
+
+# role: part
+Personality @ 13
+  # role: chapter
+  The Islamic Personality @ 16
+  # role: chapter
+  The Formation of Personality @ 20
+  # role: chapter
+  Gaps in Conduct @ 22
+# role: part
+The Islamic ‘Aqīdah @ 25
+  # role: chapter
+  The Meaning of Imān in the Day of Resurrection @ 36
+  # role: chapter
+  The Emergence of the Mutakallimīn and Their Approach @ 41
+  # role: chapter
+  The Error in the Methodology of the Mutakallimīn @ 47
+  # role: chapter
+  How the Issue of al-Qadaa’ wa‘l-Qadar Emerged @ 52
+  # role: chapter
+  Al-Qadr @ 60
+  # role: chapter
+  Al-Qadā’ @ 65
+  # role: chapter
+  Al-Qadā’ wa‘l-Qadar @ 68
+  # role: chapter
+  Guidance and Misguidance @ 76
+  # role: chapter
+  The Termination of the Life-Span [ajāl ] is the Sole Cause of Death @ 84
+  # role: chapter
+  Provision [Rizq] is in the Hands of Allah  Alone @ 90
+  # role: chapter
+  The Attributes [Sifāt] of Allah @ 94
+  # role: chapter
+  The Muslim Philosophers @ 101
+  # role: chapter
+  The Prophets and Messengers @ 104
+  # role: chapter
+  The Infallibility of the Prophets @ 108
+  # role: chapter
+  The Revelation @ 110
+  # role: chapter
+  It is not allowed on the part of the Messenger  that he be a Mujtahid @ 115
+# role: part
+The Noble Qur'ān @ 126
+  # role: chapter
+  The Compilation of the Qur’ān @ 130
+  # role: chapter
+  The Qur’ānic Script @ 135
+  # role: chapter
+  The Miracle of the Qur’ān @ 136
+# role: part
+The Sunnah @ 147
+  # role: chapter
+  The Sunnah is a Sharī’ah Evidence like the Qur’ān @ 151
+  # role: chapter
+  Inferring evidences from the Sunnah @ 154
+  # role: chapter
+  The Solitary Report (khabar al-ahad) is not a decisive proof (hujjah) for beliefs @ 156
+# role: part
+The difference between the ‘Aqīdah and the Sharī’ah rule (Hukm Shar’i) @ 161
+# role: part
+Ijtihād and Taqlīd @ 163
+  # role: chapter
+  Expert Research (Ijtihād) @ 166
+  # role: chapter
+  The Conditions of Ijtihād @ 172
+  # role: chapter
+  Taqlīd @ 178
+  # role: chapter
+  The reality of Taqlīd @ 182
+  # role: chapter
+  The states of muqallidin and their preponderant qualifications @ 188
+  # role: chapter
+  Migrating from one mujtahid to another @ 190
+# role: part
+Learning the Sharī’ah Rule @ 192
+# role: part
+The strength of the Evidence (quwwa al-dalīl) @ 195
+# role: part
+Consultation (Shūrā) or the adoption of an opinion in Islam @ 200
+# role: part
+Science and Culture @ 211
+  # role: chapter
+  The Islamic Culture @ 213
+  # role: chapter
+  The Method of Study in Islam @ 213
+  # role: chapter
+  Acquisition of Culture (thaqafa) and Sciences @ 216
+  # role: chapter
+  The Cultural Movement @ 217
+  # role: chapter
+  The position of Muslims with regards to non- Muslim cultures @ 218
+# role: part
+The Islamic Disciplines @ 225
+  # role: chapter
+  Tafsīr (Qur’ānic Exegesis) @ 226
+  # role: chapter
+  The Exegetical Approaches of Mufassirun @ 229
+# role: part
+Sources of Tafsīr @ 234
+  # role: chapter
+  The Ummah's need today for Mufassirin @ 238
+# role: part
+The Science of Ḥadīth (‘Ilm Al-Ḥadīth) @ 254
+  # role: chapter
+  The Hadīth @ 255
+  # role: chapter
+  The Transmitters of Hadīth (Ruwat Al Hadith) @ 256
+  # role: chapter
+  The One Whose Narration is Accepted and the One Whose Narration is not Accepted and the Exposition of (the science of) invalidation and attestation of reliability (al-Jarh wa Ta'dīl) @ 258
+  # role: chapter
+  Narrations of the Muslim Sects @ 260
+  # role: chapter
+  Narration by meaning (Riwaya bil Ma’na) and abridgement of the hadīth @ 261
+  # role: chapter
+  Categories of hadīth @ 262
+  # role: chapter
+  Categories of the Khabar al-Ahād @ 266
+  # role: chapter
+  The accepted hadīth (maqbul) and the rejected hadīth (mardud) @ 268
+  # role: chapter
+  The Mursal Hadīth @ 271
+  # role: chapter
+  The Ḥadīth Qudsi @ 272
+  # role: chapter
+  The inability to prove the authenticity of a hadīth from its sanad does not indicate that it is a weak hadīth @ 273
+  # role: chapter
+  Consideration of the hadīth as an evidence in the Sharī’ah Rules @ 274
+# role: part
+Prophetic Biography (Sīrah) and History @ 278
+# role: part
+The Principles of Islamic Jurisprudence (Usūl al-Fiqh) @ 282
+  # role: chapter
+  Fiqh (Jurisprudence) @ 287
+  # role: chapter
+  The Development of Fiqh @ 289
+  # role: chapter
+  The effect of disputes and Debates (Munazarat) on Islamic jurisprudence @ 295
+  # role: chapter
+  The Flourishing of Islamic Jurisprudence @ 301
+  # role: chapter
+  The Decline of Islamic Jurisprudence @ 304
+  # role: chapter
+  The myth of the influence of Roman Law on Islamic Jurisprudence @ 306

@@ -1,0 +1,43 @@
+# Agent-proposed TOC. Correct this file, then save it as ground_truth_toc.txt
+# One entry per line:  Title @ <1-based PDF page>, nested with 2 spaces per level.
+# doc: islamic-disposition
+# model: claude-sonnet-5
+# timestamp: 20261004-214210
+# source: toc-repair-agent (agent), not yet human-verified
+# needs_human: false
+# confidence: 0.97
+
+# role: front_matter
+Introduction @ 5
+# role: chapter
+1. Hastening to adhere to the Sharee'ah @ 8
+# role: chapter
+2. Maintain the recitation of the Qur'an @ 16
+# role: chapter
+3. Love of Allah and His Messenger @ 22
+# role: chapter
+4. Love and Hate for Allah's Sake @ 30
+# role: chapter
+5. Fear of Allah openly and secretly @ 48
+# role: chapter
+6. Weeping from the fear of Allah and upon His remembrance @ 58
+# role: chapter
+7. Hope in Allah and not giving up on His Mercy @ 63
+# role: chapter
+8. Patience in the face of adversity and being content with the Divine Decree @ 68
+# role: chapter
+9. Supplication, Remembrance and seeking of Forgiveness @ 79
+# role: chapter
+10. Reliance on Allah and the Sincerity to Him (swt) @ 87
+# role: chapter
+11. Steadfastness and constancy upon the Truth @ 93
+# role: chapter
+12. Humbleness towards the believers and stern towards the disbeliveers @ 107
+# role: chapter
+13. Yearning for Jannah and competing in good deeds @ 116
+# role: chapter
+14. The best of you in morals @ 146
+# role: chapter
+15. The Etiquettes of Discussion @ 232
+# role: chapter
+16. Blessings be upon the Ghurabaa (strangers) who reform that which the people have corrupted @ 249
