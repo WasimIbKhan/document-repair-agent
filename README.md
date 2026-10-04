@@ -37,6 +37,17 @@ ground truth are committed.
 | validation | islamic-disposition, islamic-personality-2, political-concepts, political-thoughts, system-of-islam |
 | test | lean-startup (more to come) |
 
+## Scoring
+
+    .venv\Scripts\python evals/run_evals.py            # all splits, writes evals/results.md
+    .venv\Scripts\python evals/run_evals.py --split train --no-write
+
+A predicted entry counts when its title matches an answer-key entry and it is on
+the same PDF page. Reported per book: precision, recall, level accuracy (by
+nesting depth), and the missed, wrong-page, wrong-level and extra entries. Pass =
+precision and recall both >= 0.9. The `parser` row is the baseline: the headings
+Enlighten stores today.
+
 ## Writing ground truth
 
 Each eval case gets a hand-written `evals/cases/<doc>/ground_truth_toc.txt`,
