@@ -62,8 +62,8 @@
    "title": "How the Issue of al-Qadaa' wa'l-Qadar Emerged",
    "level": 2,
    "page": 51,
-   "block_id": null,
-   "match_score": null
+   "block_id": "p0051-b000",
+   "match_score": 82.9
   },
   {
    "title": "Al-Qadr",
@@ -104,8 +104,8 @@
    "title": "Provision [Rizq] is in the Hands of Allah ﷻ Alone",
    "level": 2,
    "page": 89,
-   "block_id": "p0089-b006",
-   "match_score": 100.0
+   "block_id": "p0089-b000",
+   "match_score": 94.1
   },
   {
    "title": "The Attributes [Sifāt] of Allah ﷻ",
@@ -188,8 +188,8 @@
    "title": "The Sunnah is a Shari'ah Evidence like the Qur'ān",
    "level": 2,
    "page": 150,
-   "block_id": "p0150-b030",
-   "match_score": 100.0
+   "block_id": "p0150-b000",
+   "match_score": 88.6
   },
   {
    "title": "Inferring evidences from the Sunnah",
@@ -202,15 +202,15 @@
    "title": "The Solitary Report (khabar al-ahad) is not a decisive proof (hujjah) for beliefs",
    "level": 2,
    "page": 155,
-   "block_id": null,
-   "match_score": null
+   "block_id": "p0155-b000",
+   "match_score": 82.4
   },
   {
    "title": "The difference between the 'Aqidah and the Shari'ah rule (Hukm Shar'i)",
    "level": 1,
    "page": 160,
-   "block_id": "p0161-b003",
-   "match_score": 100.0
+   "block_id": "p0160-b000",
+   "match_score": 84.9
   },
   {
    "title": "Ijtihād and Taqlīd",
@@ -251,8 +251,8 @@
    "title": "The states of muqallidin and their preponderant qualifications",
    "level": 2,
    "page": 187,
-   "block_id": "p0187-b008",
-   "match_score": 100.0
+   "block_id": "p0187-b000",
+   "match_score": 90.3
   },
   {
    "title": "Migrating from one mujtahid to another",
@@ -307,8 +307,8 @@
    "title": "Acquisition of Culture (thaqafa) and Sciences",
    "level": 2,
    "page": 215,
-   "block_id": "p0215-b005",
-   "match_score": 100.0
+   "block_id": "p0215-b000",
+   "match_score": 89.7
   },
   {
    "title": "The Cultural Movement",
@@ -349,43 +349,43 @@
    "title": "Sources of Tafsīr",
    "level": 1,
    "page": 233,
-   "block_id": "p0233-b018",
-   "match_score": 100.0
+   "block_id": "p0233-b000",
+   "match_score": 95
   },
   {
    "title": "The Ummah's need today for Mufassirin",
    "level": 2,
    "page": 237,
-   "block_id": null,
-   "match_score": null
+   "block_id": "p0237-b000",
+   "match_score": 65.5
   },
   {
    "title": "The Science of Hadīth ('Ilm Al-Hadīth)",
    "level": 1,
    "page": 253,
-   "block_id": "p0253-b003",
-   "match_score": 100.0
+   "block_id": "p0253-b000",
+   "match_score": 65.4
   },
   {
    "title": "The Hadīth",
    "level": 2,
    "page": 254,
-   "block_id": null,
-   "match_score": null
+   "block_id": "p0254-b000",
+   "match_score": 46.2
   },
   {
    "title": "The Transmitters of Hadīth (Rawat Al Hadīth)",
    "level": 2,
    "page": 255,
-   "block_id": "p0255-b012",
-   "match_score": 97.6
+   "block_id": "p0255-b000",
+   "match_score": 62.3
   },
   {
    "title": "The One Whose Narration is Accepted and the One Whose Narration is not Accepted and the Exposition of (the science of) invalidation and attestation of reliability (al-Jarh wa Ta'dil)",
    "level": 2,
    "page": 257,
-   "block_id": "p0257-b006",
-   "match_score": 99.2
+   "block_id": "p0257-b000",
+   "match_score": 95
   },
   {
    "title": "Narrations of the Muslim Sects",
@@ -398,15 +398,15 @@
    "title": "Narration by meaning (Riwaya bil Ma'na) and abridgement of the hadīth",
    "level": 2,
    "page": 260,
-   "block_id": null,
-   "match_score": null
+   "block_id": "p0260-b000",
+   "match_score": 78.2
   },
   {
    "title": "Categories of hadīth",
    "level": 2,
    "page": 261,
-   "block_id": "p0261-b014",
-   "match_score": 100.0
+   "block_id": "p0261-b000",
+   "match_score": 95
   },
   {
    "title": "Categories of the Khabar al-Ahād",
@@ -419,8 +419,8 @@
    "title": "The accepted hadīth (maqbul) and the rejected hadīth (mardud)",
    "level": 2,
    "page": 267,
-   "block_id": "p0267-b015",
-   "match_score": 100.0
+   "block_id": "p0267-b000",
+   "match_score": 73.5
   },
   {
    "title": "The Mursal Hadīth",
@@ -433,15 +433,15 @@
    "title": "The Hadīth Qudsi",
    "level": 2,
    "page": 271,
-   "block_id": "p0271-b016",
-   "match_score": 100.0
+   "block_id": "p0271-b000",
+   "match_score": 40.0
   },
   {
    "title": "The inability to prove the authenticity of a hadīth from its sanad does not indicate that it is a weak hadīth",
    "level": 2,
    "page": 272,
-   "block_id": "p0272-b011",
-   "match_score": 100.0
+   "block_id": "p0272-b000",
+   "match_score": 88.8
   },
   {
    "title": "Consideration of the hadīth as an evidence in the Shari'ah Rules",
@@ -468,8 +468,8 @@
    "title": "Fiqh (Jurisprudence)",
    "level": 2,
    "page": 286,
-   "block_id": "p0286-b010",
-   "match_score": 97.1
+   "block_id": "p0286-b000",
+   "match_score": 95
   },
   {
    "title": "The Development of Fiqh",

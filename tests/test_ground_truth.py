@@ -153,3 +153,30 @@ def test_running_header_is_never_matched():
                        blocks=blocks)
     [r] = resolve_against_layout([{"title": "The Islamic Personality", "level": 2, "page": 1}], layout)
     assert r["block_id"] is None
+
+
+def test_body_heading_beats_complete_running_header():
+    layout = _page_layout([("text", "Sources of", 14.0), ("header", "Sources of Tafsir", 9.96)])
+    [r] = resolve_against_layout([{"title": "Sources of Tafsir", "level": 1, "page": 0}], layout)
+    assert r["block_id"] == "p0000-b000"
+
+
+def test_header_used_when_no_body_block_matches():
+    layout = _page_layout([("header", "2 DEFINE", 21.0), ("text", "Body text about startups and more.", 12.5)])
+    [r] = resolve_against_layout([{"title": "2. Define", "level": 2, "page": 0}], layout)
+    assert r["block_id"] == "p0000-b000"
+
+
+def test_pinned_block_is_used_and_validated():
+    layout = _page_layout([("text", "The", 14.0), ("header", "The Hadith", 9.96)])
+    [e] = parse_ground_truth_text("The Hadith @ 1 [p0000-b000]\n")
+    [r] = resolve_against_layout([e], layout)
+    assert r["block_id"] == "p0000-b000"
+    with pytest.raises(GroundTruthError, match="pinned block"):
+        resolve_against_layout(parse_ground_truth_text("The Hadith @ 1 [p0009-b000]\n"), layout)
+
+
+def test_furniture_match_is_flagged():
+    layout = _page_layout([("header", "2 DEFINE", 21.0)])
+    report = build_report(resolve_against_layout([{"title": "2 Define", "level": 1, "page": 0}], layout))
+    assert any(line.startswith("WARN matched page furniture") for line in report)
