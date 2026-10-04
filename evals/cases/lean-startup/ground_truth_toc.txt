@@ -7,3 +7,42 @@
 # doc_id: lean-startup
 # pdf: the_lean_startup_erick_ries.pdf
 # pages: 296
+
+# role: front_matter
+Introduction @ 11
+# role: part
+Part One VISION @ 23
+  # role: chapter
+  1. Start @ 24
+  # role: chapter
+  2. Define @ 35
+  # role: chapter
+  3. Learn @ 45
+  # role: chapter
+  4. Experiment @ 63
+# role: part
+Part Two STEER @ 79
+  # role: chapter
+  5. Leap @ 84
+  # role: chapter
+  6. Test @ 95
+  # role: chapter
+  7. Measure @ 115
+  # role: chapter
+  8. Pivot (or Persevere) @ 147
+# role: part
+Part Three ACCELERATE @ 176
+  # role: chapter
+  9. Batch @ 180
+  # role: chapter
+  10. Grow @ 200
+  # role: chapter
+  12. Innovate @ 244
+  # role: chapter
+  13. Epilogue: Waste Not @ 262
+  # role: chapter
+  14. Join the Movement @ 274
+# role: back_matter
+Acknowledgments @ 291
+# role: back_matter
+About the Author @ 295

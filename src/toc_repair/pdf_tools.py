@@ -7,13 +7,15 @@ from pathlib import Path
 import pymupdf
 from rapidfuzz import fuzz
 
-from .schema import normalize
+from .schema import contains_words, normalize
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES_DIR = ROOT / "evals" / "cases"
 RAW_DIR = ROOT / "data" / "raw"
 BAND = 0.08
 PARTIAL_CAP = 95
+RUNNING_PAGES = 3
+INDENT_JITTER_EM = 0.6
 MAX_RUN = 3
 MAX_BATCH = 100
 OK_SCORE = 95
@@ -24,6 +26,8 @@ SIZE_TOLERANCE = 1
 CONTENTS_TITLES = ("contents", "table of contents")
 _ARABIC = re.compile(r"^\d{1,4}$")
 _TRAILING_NUMBER = re.compile(r"^(.*?)[\s.·…_]+(\d{1,4})$")
+_PAGE_NUMBER = re.compile(r"^[\s.·…_]*(\d{1,4})$")
+_LEADER_TAIL = re.compile(r"(?:\s*[.·…_]){2,}\s*$")
 _LETTER = re.compile(r"[^\W\d_]")
 _ROMAN = re.compile(r"^(x{0,3})(ix|iv|v?i{0,3})$", re.I)
 _ENDS_NUMBER = re.compile(r"\d{1,4}$")
@@ -68,9 +72,9 @@ def _flag_rows(rows: list[dict]) -> None:
 
 
 def _score(q: str, t: str) -> float:
-    score = fuzz.ratio(q, t)
-    if 0.5 * len(q) <= len(t) <= 3 * len(q):
-        score = max(score, min(fuzz.partial_ratio(q, t), PARTIAL_CAP))
+    score = max(fuzz.ratio(q, t), fuzz.ratio(q.replace(" ", ""), t.replace(" ", "")))
+    if len(t) <= 3 * len(q) and contains_words(q, t):
+        score = max(score, PARTIAL_CAP)
     return score
 
 
@@ -150,7 +154,10 @@ class PdfDoc:
 
     @property
     def running(self) -> dict[str, int]:
-        return {t: n for t, n in self.repeats.items() if n >= 3}
+        return {t: n for t, n in self.repeats.items() if n >= RUNNING_PAGES}
+
+    def _is_running(self, lines: list[dict]) -> bool:
+        return any(ln["band"] and self.repeats.get(ln["key"], 0) >= RUNNING_PAGES for ln in lines)
 
     def _flags(self, lines: list[dict]) -> dict:
         out = {}
@@ -272,6 +279,8 @@ class PdfDoc:
             lines = self._raw_lines(p)
             for i, ln in enumerate(lines):
                 for g in (lines[i:i + k] for k in range(1, min(MAX_RUN, len(lines) - i) + 1)):
+                    if len(g) > 1 and not g[-1]["norm"]:
+                        break
                     score = _score(q, " ".join(x["norm"] for x in g))
                     key = (-score, -max(x["size"] for x in g), abs(p - anchor), ln["index"])
                     if ln["id"] not in best or key < best[ln["id"]][0]:
@@ -293,7 +302,7 @@ class PdfDoc:
                 continue
             here = self._rank_pages(q, [p], start)
             ranked += here
-            hit = next((r for r in here if -r[0][0] >= FORWARD_SCORE and not any(x["band"] for x in r[1])), None)
+            hit = next((r for r in here if -r[0][0] >= FORWARD_SCORE and not self._is_running(r[1])), None)
             if hit:
                 return [start, p], [hit] + sorted((r for r in ranked if r is not hit), key=lambda v: v[0])
         return [start, self.page_count], sorted(ranked, key=lambda v: v[0])
@@ -337,42 +346,61 @@ class PdfDoc:
             row["best"] = top[0] if top else None
             row["runner_up"] = ({k: top[1][k] for k in ("ids", "page", "score", "size", "margin") if k in top[1]}
                                 if len(top) > 1 else None)
-            if row["best"] and row["best"]["score"] >= FOUND_SCORE:
-                cursor = row["best"]["page"]
+            if ranked:
+                score, g = -ranked[0][0][0], ranked[0][1]
+                forward = row["near_page"] is None
+                if score >= (OK_SCORE if forward else FOUND_SCORE) and not (forward and self._is_running(g)):
+                    cursor = g[0]["page"]
             rows.append(row)
         _flag_rows(rows)
         return rows
 
     def _contents_rows(self, page: int) -> list[dict]:
         lines = [ln for ln in self._raw_lines(page) if ln["norm"] not in CONTENTS_TITLES
-                 and not (ln["band"] and _ARABIC.match(ln["text"]))]
-        nums = [ln for ln in lines if _ARABIC.match(ln["text"])]
-        titles = [ln for ln in lines if not _ARABIC.match(ln["text"])]
+                 and not (ln["band"] and _ARABIC.match(ln["text"])) and not self._is_running([ln])]
+        number = {ln["id"]: int(m.group(1)) for ln in lines if (m := _PAGE_NUMBER.match(ln["text"]))}
+        titles = [ln for ln in lines if ln["id"] not in number]
         paired: dict[str, dict] = {}
-        for num in nums:
-            same_row = [t for t in titles if t["id"] not in paired and abs(t["bbox"][3] - num["bbox"][3]) <= 3
-                        and t["bbox"][0] < num["bbox"][0]]
-            if same_row:
-                paired[min(same_row, key=lambda t: abs(t["bbox"][3] - num["bbox"][3]))["id"]] = num
-        used = {num["id"] for num in paired.values()}
+        labelled, used = set(), set()
+        for num in (ln for ln in lines if ln["id"] in number):
+            row = [t for t in titles if abs(t["bbox"][3] - num["bbox"][3]) <= 3]
+            before = [t for t in row if t["id"] not in paired and t["bbox"][0] < num["bbox"][0]]
+            after = [t for t in row if t["bbox"][0] >= num["bbox"][2]]
+            if before:
+                paired[min(before, key=lambda t: abs(t["bbox"][3] - num["bbox"][3]))["id"]] = num
+            elif after:
+                labelled.add(min(after, key=lambda t: t["bbox"][0])["id"])
+            else:
+                continue
+            used.add(num["id"])
+        parsed = {}
+        for ln in titles:
+            num = paired.get(ln["id"])
+            text, printed = _LEADER_TAIL.sub("", ln["text"]), number[num["id"]] if num else None
+            m = None if num else _TRAILING_NUMBER.match(ln["text"])
+            if m and _LETTER.search(m.group(1)):
+                text, printed = m.group(1).rstrip(" .·…_"), int(m.group(2))
+            parsed[ln["id"]] = text, printed
+        gaps = [b["bbox"][1] - a["bbox"][1] for a, b in zip(titles, titles[1:])
+                if parsed[a["id"]][1] is not None and b["bbox"][1] > a["bbox"][1]]
+        pitch = statistics.median(gaps) if gaps else None
         wide = max((t["bbox"][2] for t in titles), default=0)
         rows: list[dict] = []
         pending = prev = None
         for ln in lines:
-            if _ARABIC.match(ln["text"]):
+            if ln["id"] in number:
                 if ln["id"] not in used and pending:
-                    pending.update(printed_page=int(ln["text"]), ids=pending["ids"] + [ln["id"]])
+                    pending.update(printed_page=number[ln["id"]], ids=pending["ids"] + [ln["id"]])
                     pending = None
                 continue
             num = paired.get(ln["id"])
-            text, printed, ids = ln["text"], int(num["text"]) if num else None, [ln["id"]] + ([num["id"]] if num else [])
-            m = None if num else _TRAILING_NUMBER.match(text)
-            if m and _LETTER.search(m.group(1)):
-                text, printed = m.group(1).rstrip(" .·…_"), int(m.group(2))
+            (text, printed), ids = parsed[ln["id"]], [ln["id"]] + ([num["id"]] if num else [])
             x0 = ln["bbox"][0]
-            wraps = (pending is not None and x0 >= pending["x0"] - 1 and abs(ln["size"] - prev["size"]) <= 0.5
-                     and prev["bbox"][2] >= pending["x0"] + 0.6 * (wide - pending["x0"]))
-            part = {"title": text, "printed_page": printed, "x0": x0, "ids": ids}
+            wraps = (pending is not None and ln["id"] not in labelled and x0 >= pending["x0"] - 1
+                     and abs(ln["size"] - prev["size"]) <= 0.5
+                     and (prev["bbox"][2] >= pending["x0"] + 0.6 * (wide - pending["x0"])
+                          or (pitch is not None and 0 <= ln["bbox"][1] - prev["bbox"][1] < 0.75 * pitch)))
+            part = {"title": text, "printed_page": printed, "x0": x0, "size": ln["size"], "ids": ids}
             if wraps:
                 pending.update(title=f"{pending['title']} {text}", printed_page=printed, ids=pending["ids"] + ids)
                 pending["parts"].append(part)
@@ -391,11 +419,11 @@ class PdfDoc:
             lo -= 1
         while page in found and hi + 1 in found:
             hi += 1
-        xs = sorted({round(r["x0"] / 2) * 2 for p in range(lo, hi + 1)
-                     for r in (rows if p == page else self._contents_rows(p))})
+        run = [r for p in range(lo, hi + 1) for r in (rows if p == page else self._contents_rows(p))]
+        jitter = max(4, INDENT_JITTER_EM * statistics.median(r["size"] for r in run)) if run else 4
         levels: list[float] = []
-        for x in xs:
-            if not levels or x - levels[-1] > 4:
+        for x in sorted({round(r["x0"] / 2) * 2 for r in run}):
+            if not levels or x - levels[-1] > jitter:
                 levels.append(x)
         out = []
         for r in rows:

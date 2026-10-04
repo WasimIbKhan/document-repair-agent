@@ -1,5 +1,6 @@
 import base64
 import json
+import math
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -133,10 +134,10 @@ def make_tools(doc: PdfDoc, state: RunState) -> list[SdkMcpTool]:
     @read_tool("find_headings", (
         "Link many contents entries in one call, up to 100 items of {title, near_page, level}. near_page is the "
         "1-based PDF page (printed page + offset); ±window pages are searched. Set near_page to null when the book "
-        "prints no page numbers: the search then runs forward from the page where the previous item was found "
-        "(page 1 for the first, skipping contents pages) and takes the earliest page with a non-margin line scoring "
-        ">= 90. Returns one row per item, in order: {title, near_page, level, searched_pages, best, runner_up, "
-        "status, flags}. best is {ids, page, text, score, size, bold, margin?, repeats_on_pages?} or null. status "
+        "prints no page numbers: the search then runs forward from the page of the last item found with score >= 95 "
+        "(page 1 at first, skipping contents pages) and takes the earliest page with a line scoring >= 90 that is "
+        "not a running header (margin text repeating on 3+ pages). Returns one row per item, in order: {title, "
+        "near_page, level, searched_pages, best, runner_up, status, flags}. best is {ids, page, text, score, size, bold, margin?, repeats_on_pages?} or null. status "
         "is \"ok\" or \"check\"; flags say why: low_score (best < 95), in_margin, close_runner_up (a different line "
         "within 3 points), size_mismatch (best size more than 1pt off the median for its level in this batch), "
         "not_found (nothing scores >= 80). Trust \"ok\" rows; investigate \"check\" rows."),
@@ -195,11 +196,13 @@ def make_tools(doc: PdfDoc, state: RunState) -> list[SdkMcpTool]:
         "Submit the linked table of contents; the only way to answer. entries, in book order: title exactly as "
         "printed on the contents page, level (1 = top; follow the contents page indentation, not what reads "
         "naturally), page (1-based PDF page of the heading), line_ids (the consecutive line ids holding the "
-        "heading, from find_headings, find_heading or page_lines), role when clear. unresolved lists entries you "
-        "could not link, as {title, reason}. confidence is 0..1. A checker verifies every entry against the PDF "
+        "heading, from find_headings, find_heading or page_lines), role when clear. Every contents entry must be "
+        "either linked in entries or listed in unresolved as {title, reason} (e.g. 'not a heading: translator's "
+        "note', 'no heading in the body'). confidence is 0..1. A checker verifies every entry against the PDF "
         "text: cited lines must read as the title, levels may deepen by at most one step, pages may not go "
-        "backwards, and levels must match the contents indentation. If it returns errors you get one more "
-        "attempt; a second failure records a code-only fallback for human review."),
+        "backwards, levels must match the contents indentation, and no contents entry may be left out. If it "
+        "returns errors you get one more attempt; a second failure with few problems (at most 3, or 10% of the "
+        "entries) records your proposal flagged for human review, otherwise a code-only fallback."),
         _schema({"entries": {"type": "array", "items": ENTRY},
                  "unresolved": {"type": "array", "items": {"type": "object"}},
                  "confidence": {"type": "number", "minimum": 0, "maximum": 1}}, ["entries", "confidence"]))
@@ -216,7 +219,7 @@ def propose(doc: PdfDoc, state: RunState, args: dict) -> tuple[bool, str]:
     state.attempts += 1
     try:
         p = Proposal.model_validate(args)
-        errors = verify(doc, p.entries)
+        errors = verify(doc, p.entries, p.unresolved)
     except ValidationError as err:
         p, errors = None, [f"invalid proposal: {_validation_message(err)}"]
     if state.log_path is not None:
@@ -232,6 +235,10 @@ def propose(doc: PdfDoc, state: RunState, args: dict) -> tuple[bool, str]:
     if state.attempts < MAX_ATTEMPTS:
         return False, (f"rejected: {len(errors)} problem(s); entries are numbered from 1.\n{listing}{more}\n"
                 f"Fix these and call propose_toc once more with the full list; this is your last attempt.")
+    if p is not None and len(errors) <= max(3, math.ceil(0.10 * len(p.entries))):
+        state.result = AgentResult(doc_id=state.doc_id, entries=p.entries, unresolved=p.unresolved,
+                                   confidence=p.confidence, needs_human=True, source="agent", problems=errors)
+        return True, f"recorded with {len(errors)} flagged problems for human review; stop here.\n{listing}"
     state.result = fallback_toc(doc, state.doc_id)
     return False, f"rejected twice; fallback recorded for human review.\n{listing}{more}"
 

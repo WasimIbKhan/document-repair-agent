@@ -21,6 +21,10 @@ def normalize(text: str) -> str:
     return _NON_ALNUM.sub(" ", folded).strip()
 
 
+def contains_words(norm_title: str, norm_text: str) -> bool:
+    return bool(norm_title) and f" {norm_title} " in f" {norm_text} "
+
+
 def to_block_type(value) -> BlockType:
     return value if value in KNOWN_TYPES else "other"
 
@@ -125,3 +129,4 @@ class AgentResult(BaseModel):
     confidence: float = Field(ge=0, le=1)
     needs_human: bool = False
     source: Literal["agent", "fallback"]
+    problems: list[str] = []

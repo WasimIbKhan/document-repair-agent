@@ -93,9 +93,9 @@ class HeadingQuery(TypedDict):
 def pdf_find_headings(doc_id: str, items: list[HeadingQuery], window: int = 3) -> list[dict]:
     """Link many contents entries in one call: the same ranking as pdf_find_heading, for up to 100 items
     of {title, near_page, level?}. near_page is the 1-based PDF page (±window pages are searched); set it to
-    null when the book prints no page numbers, and the search runs forward from the page where the previous
-    item was found (page 1 for the first, skipping contents pages) and takes the earliest page with a
-    non-margin line scoring >= 90. Returns one compact row per item, in order: {title, near_page, level?,
+    null when the book prints no page numbers, and the search runs forward from the page of the last item
+    found with score >= 95 (page 1 at first, skipping contents pages) and takes the earliest page with a
+    line scoring >= 90 that is not a running header (margin text repeating on 3+ pages). Returns one compact row per item, in order: {title, near_page, level?,
     searched_pages, best, runner_up, status, flags}. best is {ids, page, text, score, size, bold, margin?,
     repeats_on_pages?} or null; runner_up is {ids, page, score, size, margin?} or null. status is "ok" or
     "check"; flags say why: low_score (best < 95), in_margin, close_runner_up (a different line within 3

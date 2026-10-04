@@ -65,10 +65,12 @@ def test_line_ids_must_exist_sit_on_the_page_and_be_adjacent(book):
 
 def test_levels_and_pages(book):
     entries = good_entries(book)
-    first = entries[0].model_copy(update={"level": 2})
+    second = [e.model_copy(update={"level": 2}) for e in entries]
+    assert not any("jumps" in e for e in verify(book, second))
+    first = entries[0].model_copy(update={"level": 3})
     jump = entries[2].model_copy(update={"level": 4})
     errors = verify(book, [first, entries[1], jump])
-    assert any("entry 1 'Part One': the first entry must be level 1" in e for e in errors)
+    assert any(e.startswith("entry 1 'Part One': level 3 jumps more than one deeper than the top level") for e in errors)
     assert any("entry 3 'Second Chapter': level 4 jumps more than one deeper than entry 2" in e for e in errors)
     errors = verify(book, [entries[0], entries[2], entries[1]])
     assert any("entry 3 'First Chapter': page 2 comes before entry 2 'Second Chapter' on page 3" in e
@@ -81,6 +83,22 @@ def test_levels_follow_contents_indentation(book):
     [err] = verify(book, entries)
     assert err.startswith("entry 2 'First Chapter': level 1, but the contents page (PDF page 1) indents "
                           "'First Chapter' at level 2")
+
+
+def test_every_contents_entry_is_linked_or_unresolved(book):
+    entries = good_entries(book)
+    [err] = verify(book, entries[:1] + entries[2:])
+    assert err == ("contents entry 'First Chapter' (printed page 1) is missing; add it as an entry, or list it in "
+                   "unresolved with a reason (e.g. 'not a heading: translator's note', 'no heading in the body')")
+    assert verify(book, entries[:1] + entries[2:], [{"title": "First Chapter", "reason": "no heading in the body"}]) == []
+    assert verify(book, entries[:3], [{"title": "3. Third Chapter (appendix)", "reason": "x"}]) == []
+    assert len(verify(book, entries[:3], [{"title": "Chapter", "reason": "one word is not enough"}])) == 1
+
+
+def test_books_without_contents_skip_completeness(tmp_path):
+    doc = make_pdf(tmp_path / "plain.pdf", [body_page([("Lone Heading", 16)], 1)])
+    entry = LinkedEntry(title="Lone Heading", level=1, page=1, line_ids=[line_id(doc, 1, "Lone Heading")])
+    assert doc.contents_pages() == [] and verify(doc, [entry]) == []
 
 
 def test_empty_proposal_is_an_error(book):

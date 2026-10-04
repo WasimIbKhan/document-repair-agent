@@ -54,7 +54,7 @@ def test_propose_accepts_a_verified_toc(book):
     assert again["is_error"] and "already recorded" in again["content"][0]["text"]
 
 
-def test_propose_gives_one_fix_attempt_then_falls_back(book):
+def test_propose_gives_one_fix_attempt_then_keeps_a_nearly_right_answer(book):
     state, tools = setup(book)
     wrong = good_entries(book)
     wrong[1] = wrong[1].model_copy(update={"level": 1})
@@ -62,8 +62,22 @@ def test_propose_gives_one_fix_attempt_then_falls_back(book):
     assert first["is_error"] and "this is your last attempt" in first["content"][0]["text"]
     assert "entry 2 'First Chapter': level 1" in first["content"][0]["text"] and state.result is None
     second = call(tools, "propose_toc", proposal(wrong))
+    assert not second.get("is_error")
+    assert second["content"][0]["text"].startswith("recorded with 1 flagged problems for human review")
+    r = state.result
+    assert (r.source, r.needs_human, len(r.entries), state.attempts) == ("agent", True, 4, 2)
+    [problem] = r.problems
+    assert problem.startswith("entry 2 'First Chapter': level 1")
+    assert f"# problem: {problem}" in review_text(r, "claude-sonnet-5", "20261004-120000").split("\n\n")[0]
+
+
+def test_propose_falls_back_when_too_many_problems(book):
+    state, tools = setup(book)
+    wrong = [e.model_copy(update={"title": f"Wrong {n}"}) for n, e in enumerate(good_entries(book))]
+    call(tools, "propose_toc", proposal(wrong))
+    second = call(tools, "propose_toc", proposal(wrong))
     assert second["is_error"] and second["content"][0]["text"].startswith("rejected twice; fallback recorded")
-    assert state.result.source == "fallback" and state.result.needs_human and state.attempts == 2
+    assert state.result.source == "fallback" and state.result.needs_human and state.result.problems == []
 
 
 def test_schema_error_counts_as_an_attempt(book):

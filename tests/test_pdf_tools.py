@@ -170,6 +170,42 @@ def test_find_headings_forward_search_without_page_numbers(tmp_path):
     assert nowhere["searched_pages"] == [5, 5] and "not_found" in nowhere["flags"]
 
 
+def test_forward_search_needs_whole_words_and_a_confident_hit_to_move(tmp_path):
+    body = [(40, 200 + 16 * i, line, 11) for i, line in enumerate(BODY)]
+    doc = make_pdf(tmp_path / "w.pdf", [
+        [(150, 60, "Contents", 14), (40, 100, "Cover", 11), (40, 120, "Opening", 11)],
+        [(40, 100, "1START", 18), *body],
+        [(40, 100, "Opening", 18), *body],
+        body,
+        [(40, 100, "Press coverage", 11), *body],
+    ])
+    cover, start, opening = doc.find_headings([{"title": t, "near_page": None}
+                                               for t in ("Cover", "1. Start", "Opening")])
+    assert "not_found" in cover["flags"] and cover["best"]["score"] < 80
+    assert start["best"]["page"] == 2 and start["best"]["score"] == 100
+    assert opening["best"]["page"] == 3 and opening["searched_pages"] == [2, 3]
+
+
+def test_contents_view_joins_short_wrapped_titles_and_drops_slugs(tmp_path):
+    slug = "Typeset slug file.qxd Page"
+    doc = make_pdf(tmp_path / "w.pdf", [
+        [(20, 20, f"{slug} 1", 8), (180, 60, "Contents", 14),
+         (40, 100, "1", 12), (60, 100, "Short Title . . . . . . . . . 3", 12),
+         (40, 125, "2", 12), (60, 125, "Understanding the", 12),
+         (60, 137.5, "Wrapped Situation . . . . . . 5", 12),
+         (40, 162.5, "3", 12), (60, 162.5, "Third Entry . . . . . . . . . 7", 12)],
+        [(20, 20, f"{slug} 2", 8),
+         (34, 100, "4", 12), (54, 100, "Fourth Entry . . . . . . . . 9", 12),
+         (34, 125, "5", 12), (54, 125, "Fifth Entry", 12), (200, 125, "__________ 11", 12),
+         (34, 150, "6", 12), (54, 150, "Sixth Entry . . . . . . . . 13", 12)],
+        [(20, 20, f"{slug} 3", 8), *[(40, 200 + 16 * i, line, 11) for i, line in enumerate(BODY)]],
+    ])
+    assert [c["page"] for c in doc.contents_pages()] == [1, 2]
+    rows = [(r["title"], r["printed_page"], r["indent"]) for p in (1, 2) for r in doc.contents_view(p)["rows"]]
+    assert rows == [("Short Title", 3, 1), ("Understanding the Wrapped Situation", 5, 1), ("Third Entry", 7, 1),
+                    ("Fourth Entry", 9, 1), ("Fifth Entry", 11, 1), ("Sixth Entry", 13, 1)]
+
+
 def test_contents_view_pairs_numbers_wraps_titles_and_ranks_indents(tmp_path):
     doc = make_pdf(tmp_path / "c.pdf", [[
         (150, 60, "Contents", 14),

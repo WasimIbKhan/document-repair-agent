@@ -3,7 +3,7 @@ import re
 from rapidfuzz import fuzz
 
 from .pdf_tools import PdfDoc
-from .schema import LinkedEntry, normalize
+from .schema import LinkedEntry, contains_words, normalize
 
 TITLE_MATCH = 90
 _NUMBER_WORDS = ("one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|"
@@ -45,13 +45,14 @@ def _contents_rows(doc: PdfDoc) -> list[dict]:
     return [{**r, "page": c["page"]} for c in doc.contents_pages() for r in doc.contents_view(c["page"])["rows"]]
 
 
-def verify(doc: PdfDoc, entries: list[LinkedEntry]) -> list[str]:
+def verify(doc: PdfDoc, entries: list[LinkedEntry], unresolved: list[dict] | None = None) -> list[str]:
     if not entries:
         return ["no entries: propose every contents entry, linked to its heading in the body"]
     errors = [err for n, e in enumerate(entries, 1) if (err := _check_lines(doc, n, e))]
     for n, (prev, e) in enumerate(zip([None, *entries], entries), 1):
-        if prev is None and e.level != 1:
-            errors.append(f"entry 1 {e.title!r}: the first entry must be level 1, got {e.level}")
+        if prev is None and e.level > 2:
+            errors.append(f"entry 1 {e.title!r}: level {e.level} jumps more than one deeper than the top level; "
+                          f"the first entry may be level 1 or 2")
         elif prev is not None and e.level > prev.level + 1:
             errors.append(f"entry {n} {e.title!r}: level {e.level} jumps more than one deeper than entry {n - 1} "
                           f"{prev.title!r} at level {prev.level}")
@@ -68,4 +69,32 @@ def verify(doc: PdfDoc, entries: list[LinkedEntry]) -> list[str]:
             errors.append(f"entry {n} {e.title!r}: level {e.level}, but the contents page (PDF page {best['page']}) "
                           f"indents {best['title']!r} at level {best['indent']}; levels follow the author's "
                           f"contents indentation, not what reads naturally")
+    return errors + _missing(rows, [e.title for e in entries] + [str(u.get("title", "")) for u in unresolved or []])
+
+
+def _contained(a: str, b: str) -> bool:
+    short, long = sorted((a, b), key=len)
+    return len(short.split()) >= 2 and contains_words(short, long)
+
+
+def _missing(rows: list[dict], titles: list[str]) -> list[str]:
+    free = {i: normalize(t) for i, t in enumerate(titles)}
+    missing = []
+    for r in rows:
+        q = normalize(r["title"])
+        best = max(free, key=lambda i: fuzz.ratio(q, free[i]), default=None)
+        if best is not None and fuzz.ratio(q, free[best]) >= TITLE_MATCH:
+            del free[best]
+        else:
+            missing.append(r)
+    errors = []
+    for r in missing:
+        q = normalize(r["title"])
+        hit = next((i for i, t in free.items() if _contained(q, t)), None)
+        if hit is not None:
+            del free[hit]
+            continue
+        where = f"printed page {r['printed_page']}" if r["printed_page"] is not None else f"listed on contents PDF page {r['page']}"
+        errors.append(f"contents entry {r['title']!r} ({where}) is missing; add it as an entry, or list it in "
+                      f"unresolved with a reason (e.g. 'not a heading: translator's note', 'no heading in the body')")
     return errors

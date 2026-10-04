@@ -18,7 +18,7 @@ SYSTEM_PROMPT = """You link a book's table of contents to the exact places where
 2. Call contents_view on the contents pages to get each entry's title, printed page and indent level. Contents pages can run over several pages; include every one. If there is no usable contents page, build the list from the body using search and page_lines.
 3. Call find_headings once with every entry (near_page = printed page + offset; null when the book prints no page numbers, which searches forward from the previous entry). Rows with status "ok" are linked; trust them.
 4. Investigate only rows with status "check", using find_heading, page_lines, and render_page only when the text cannot settle it (page images are expensive).
-5. Call propose_toc with every entry: title exactly as printed on the contents page, level, PDF page, the line_ids you are citing, and a role when clear (part, chapter, section, front_matter, back_matter). A checker verifies every entry against the PDF; if it returns errors, fix them and propose once more.
+5. Call propose_toc with every entry: title exactly as printed on the contents page, level, PDF page, the line_ids you are citing, and a role when clear (part, chapter, section, front_matter, back_matter). Every contents entry must be either linked or listed in unresolved with a reason (e.g. 'not a heading: translator's note', 'no heading in the body'). A checker verifies every entry against the PDF; if it returns errors, fix them and propose once more.
 You have a hard budget of 40 tool calls and 20 page images. Never answer in prose; propose_toc is the only way to answer."""
 
 
@@ -102,6 +102,7 @@ def review_text(result: AgentResult, model: str, stamp: str) -> str:
         f"# source: toc-repair-agent ({result.source}), not yet human-verified",
         f"# needs_human: {str(result.needs_human).lower()}",
         f"# confidence: {result.confidence}",
+        *[f"# problem: {p}" for p in result.problems],
         "",
     ]
     for e in result.entries:
@@ -138,7 +139,7 @@ async def run_book(doc_id: str, model: str = DEFAULT_MODEL, max_tool_calls: int 
     result = state.result
     stats = {
         "doc_id": doc_id, "model": model, "final_source": result.source, "entries": len(result.entries),
-        "unresolved": len(result.unresolved), "needs_human": result.needs_human, "confidence": result.confidence,
+        "unresolved": len(result.unresolved), "problems": len(result.problems), "needs_human": result.needs_human, "confidence": result.confidence,
         "verification_attempts": state.attempts, "tool_calls": state.tool_calls, "images": state.images,
         "denied": state.denied, "calls_by_tool": dict(state.calls),
         "turns": final.num_turns if final else None,
