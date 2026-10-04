@@ -7,6 +7,7 @@
 # doc_id: lean-startup
 # pdf: the_lean_startup_erick_ries.pdf
 # pages: 296
+# source: agent proposal (claude-sonnet-5, 2026-10-04), reviewed by Wasim; 11. Adapt added after review
 
 # role: front_matter
 Introduction @ 11
@@ -36,6 +37,7 @@ Part Three ACCELERATE @ 176
   9. Batch @ 180
   # role: chapter
   10. Grow @ 200
+  11. Adapt @ 217
   # role: chapter
   12. Innovate @ 244
   # role: chapter
