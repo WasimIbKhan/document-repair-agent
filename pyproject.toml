@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "toc-repair"
+version = "0.1.0"
+description = "Repair the table of contents of an already-parsed PDF"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2",
+    "pymupdf>=1.24",
+    "rapidfuzz",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+toc-repair-build-layout = "toc_repair.build_layout:main"
+toc-repair-gt = "toc_repair.ground_truth:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

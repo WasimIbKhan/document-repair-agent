@@ -1,0 +1,9 @@
+# Ground-truth TOC. One entry per line:  Title @ <page>
+# <page> is the 1-based page number your PDF viewer shows (NOT the printed folio).
+# Nest with 2 spaces per level (level 1 = no indent; tabs count as 2 spaces).
+# Titles verbatim as printed, including numbering like '1.2 Foo'.
+# Blank lines and lines starting with # are ignored. '@ page' is required.
+# Run: toc-repair-gt <this dir>   to validate and write ground_truth_toc.json
+# doc_id: political-concepts
+# pdf: Political_Concepts.pdf
+# pages: 76
