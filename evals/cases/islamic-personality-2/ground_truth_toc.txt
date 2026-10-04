@@ -7,3 +7,148 @@
 # doc_id: islamic-personality-2
 # pdf: The Islamic Personality vol 2 a4.pdf
 # pages: 297
+# source: agent output (claude-sonnet-5, 2026-10-04), reviewed by Wasim with no corrections
+
+The Islamic Personality Vol @ 3
+  # role: chapter
+  Studying Fiqh @ 11
+  # role: chapter
+  The Khilafah @ 15
+    # role: section
+    The Time Limit Given for Muslims to appoint a Khalifah @ 21
+    # role: section
+    Contracting (In’iqad) the Khilafah @ 22
+    # role: section
+    The Pledge (Bay’ah) @ 25
+    # role: section
+    The Conditions of Eligibility for the Khalifah @ 28
+    # role: section
+    Seeking the Khilafah Post @ 33
+    # role: section
+    The Unity of the Khilafah @ 34
+    # role: section
+    Succession (Istikhlaf) or Reign (‘Ahd) @ 36
+    # role: section
+    The Method to Appoint the Khalifah @ 37
+    # role: section
+    The Shar'a did not designate a specific person for the Khilafah. @ 45
+    # role: section
+    General Responsibilities/Duties @ 83
+  # role: chapter
+  The Islamic State is a human state and not a Theocratic State. @ 91
+    # role: section
+    Deposing or Removal of the Khalifah @ 106
+  # role: chapter
+  The Leadership (Al-Imarah) @ 108
+    # role: section
+    Obedience (At-Ta’ah) @ 113
+    # role: section
+    The Khalifah's adoption of rules and styles i.e. adopting canons @ 116
+  # role: chapter
+  JIHAD @ 125
+    # role: section
+    The Khalifah and Jihad @ 131
+    # role: section
+    The meaning of the Khalifah supervising the army's leadership @ 133
+    # role: section
+    The Martyr @ 139
+    # role: section
+    Guarding the frontiers (Ar-Ribat) @ 147
+    # role: section
+    The Islamic army @ 149
+    # role: section
+    Seeking the assistance of disbelievers in fighting @ 150
+    # role: section
+    Preparing the Islamic army @ 155
+    # role: section
+    Flags and Banners @ 156
+    # role: section
+    Captives @ 159
+  # role: chapter
+  The War policy @ 164
+    # role: section
+    Lying in war @ 170
+    # role: section
+    Spying @ 174
+    # role: section
+    Truce (Hudna) @ 179
+    # role: section
+    Military Alliances @ 181
+    # role: section
+    Permissible treaties @ 184
+    # role: section
+    Emergency treaties @ 186
+    # role: section
+    Annulling treaties @ 188
+    # role: section
+    The Belligerent disbeliever (Kafir Harbi) @ 191
+    # role: section
+    The Protected Person (Al-M'ustamin) @ 192
+    # role: section
+    The rules of the Dhimmi @ 194
+  # role: chapter
+  Implementing Islam is obligatory upon the disbelievers @ 199
+  # role: chapter
+  The Jizyah @ 201
+  # role: chapter
+  The lands of Ushr, Kharaj and Sulh (Truce) @ 204
+  # role: chapter
+  Dar al-Kufr and Dar al-Islam @ 211
+  # role: chapter
+  The believer's befriending the disbelievers @ 213
+    # role: section
+    The emigration (Hijrah) from Dar al-Kufr to Dar al-Islam @ 222
+  # role: chapter
+  The position of Islam on slaves and slavery @ 226
+    # role: section
+    Treating slaves @ 227
+    # role: section
+    Treating slavery @ 232
+  # role: chapter
+  Relationships between individuals @ 235
+  # role: chapter
+  Trade (Bai’) @ 237
+    # role: section
+    Everything forbidden for man, trading it is also forbidden @ 241
+    # role: section
+    It is not allowed to sell what you do not have @ 242
+    # role: section
+    The selling of advance credit (As-salam) @ 245
+    # role: section
+    Buying Fruits while they are still on the tree @ 249
+    # role: section
+    Sale on Credit And Instalments (taqseet) @ 255
+    # role: section
+    Brokerage (Samsara) @ 258
+  # role: chapter
+  Hiring @ 262
+    # role: section
+    The Employee @ 263
+    # role: section
+    The Wage @ 264
+    # role: section
+    Estimating the Wage @ 265
+    # role: section
+    The amount of the wage @ 266
+    # role: section
+    Paying the Wage @ 267
+    # role: section
+    Types of employees @ 268
+    # role: section
+    There is no Labour problem in Islam @ 269
+    # role: section
+    Hiring Assets @ 271
+    # role: section
+    Renting houses for residence @ 273
+  # role: chapter
+  All bribery is forbidden @ 274
+  # role: chapter
+  Mortgage/ Pledging security @ 278
+    # role: section
+    The pledgee benefiting from the pledge @ 280
+  # role: chapter
+  The bankrupt @ 283
+  # role: chapter
+  Transfer of a right (Al-hawala) @ 286
+  # role: chapter
+  Drawing & Painting @ 288

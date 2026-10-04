@@ -1,4 +1,5 @@
 import argparse
+import json
 import sys
 from datetime import date
 from pathlib import Path
@@ -8,9 +9,21 @@ from .schema import LayoutDoc
 from .scoring import parser_toc, score
 from .splits import EVALS_DIR, SPLITS, load_splits
 
-PREDICTORS = {"parser": parser_toc}
+RUNS_DIR = EVALS_DIR.parent / "runs"
+
+
+def agent_toc(layout: LayoutDoc) -> list[dict]:
+    runs = sorted(RUNS_DIR.glob(f"{layout.doc_id}/*/result.json"))
+    if not runs:
+        return []
+    result = json.loads(runs[-1].read_text(encoding="utf-8"))["result"]
+    return [{"title": e["title"], "level": e["level"], "page": e["page"] - 1} for e in result["entries"]]
+
+
+PREDICTORS = {"parser": parser_toc, "agent": agent_toc}
 PREDICTOR_NOTES = {
     "parser": "headings in the content list Enlighten stores today (parser output after the app's current repair step)",
+    "agent": "latest toc-repair-agent run per book (claude-sonnet-5, no Skill); a rejected run is the code-only fallback",
 }
 
 
