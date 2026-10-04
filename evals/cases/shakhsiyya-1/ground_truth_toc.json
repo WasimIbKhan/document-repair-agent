@@ -1,0 +1,510 @@
+{
+ "doc_id": "shakhsiyya-1",
+ "source": "model-transcribed (Sonnet, from images of the contents pages), human-verified",
+ "entries": [
+  {
+   "title": "Personality",
+   "level": 1,
+   "page": 12,
+   "block_id": "p0012-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The Islamic Personality",
+   "level": 2,
+   "page": 15,
+   "block_id": null,
+   "match_score": null
+  },
+  {
+   "title": "The Formation of Personality",
+   "level": 2,
+   "page": 19,
+   "block_id": "p0019-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "Gaps in Conduct",
+   "level": 2,
+   "page": 21,
+   "block_id": "p0021-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Islamic 'Aqidah",
+   "level": 1,
+   "page": 24,
+   "block_id": "p0024-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The Meaning of Imān in the Day of Resurrection",
+   "level": 2,
+   "page": 35,
+   "block_id": "p0035-b000",
+   "match_score": 94.3
+  },
+  {
+   "title": "The Emergence of the Mutakallimīn and Their Approach",
+   "level": 2,
+   "page": 40,
+   "block_id": "p0040-b000",
+   "match_score": 85.7
+  },
+  {
+   "title": "The Error in the Methodology of the Mutakallimīn",
+   "level": 2,
+   "page": 46,
+   "block_id": "p0046-b000",
+   "match_score": 95
+  },
+  {
+   "title": "How the Issue of al-Qadaa' wa'l-Qadar Emerged",
+   "level": 2,
+   "page": 51,
+   "block_id": null,
+   "match_score": null
+  },
+  {
+   "title": "Al-Qadr",
+   "level": 2,
+   "page": 59,
+   "block_id": "p0059-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "Al-Qadā'",
+   "level": 2,
+   "page": 64,
+   "block_id": "p0064-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "Al-Qadā' wa'l-Qadar",
+   "level": 2,
+   "page": 67,
+   "block_id": "p0067-b000",
+   "match_score": 94.4
+  },
+  {
+   "title": "Guidance and Misguidance",
+   "level": 2,
+   "page": 75,
+   "block_id": "p0075-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Termination of the Life-Span [ajāl] is the Sole Cause of Death",
+   "level": 2,
+   "page": 83,
+   "block_id": "p0083-b000",
+   "match_score": 95.9
+  },
+  {
+   "title": "Provision [Rizq] is in the Hands of Allah ﷻ Alone",
+   "level": 2,
+   "page": 89,
+   "block_id": "p0089-b006",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Attributes [Sifāt] of Allah ﷻ",
+   "level": 2,
+   "page": 93,
+   "block_id": "p0093-b000",
+   "match_score": 88.5
+  },
+  {
+   "title": "The Muslim Philosophers",
+   "level": 2,
+   "page": 100,
+   "block_id": "p0100-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Prophets and Messengers",
+   "level": 2,
+   "page": 103,
+   "block_id": "p0103-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Infallibility of the Prophets",
+   "level": 2,
+   "page": 107,
+   "block_id": "p0107-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Revelation",
+   "level": 2,
+   "page": 109,
+   "block_id": "p0109-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "It is not allowed on the part of the Messenger ﷺ that he be a Mujtahid",
+   "level": 2,
+   "page": 114,
+   "block_id": "p0114-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The Noble Qur'ān",
+   "level": 1,
+   "page": 125,
+   "block_id": "p0125-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Compilation of the Qur'ān",
+   "level": 2,
+   "page": 129,
+   "block_id": "p0129-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Qur'ānic Script",
+   "level": 2,
+   "page": 134,
+   "block_id": "p0134-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Miracle of the Qur'ān",
+   "level": 2,
+   "page": 135,
+   "block_id": "p0135-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Sunnah",
+   "level": 1,
+   "page": 146,
+   "block_id": "p0146-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Sunnah is a Shari'ah Evidence like the Qur'ān",
+   "level": 2,
+   "page": 150,
+   "block_id": "p0150-b030",
+   "match_score": 100.0
+  },
+  {
+   "title": "Inferring evidences from the Sunnah",
+   "level": 2,
+   "page": 153,
+   "block_id": "p0153-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Solitary Report (khabar al-ahad) is not a decisive proof (hujjah) for beliefs",
+   "level": 2,
+   "page": 155,
+   "block_id": null,
+   "match_score": null
+  },
+  {
+   "title": "The difference between the 'Aqidah and the Shari'ah rule (Hukm Shar'i)",
+   "level": 1,
+   "page": 160,
+   "block_id": "p0161-b003",
+   "match_score": 100.0
+  },
+  {
+   "title": "Ijtihād and Taqlīd",
+   "level": 1,
+   "page": 162,
+   "block_id": "p0162-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "Expert Research (Ijtihād)",
+   "level": 2,
+   "page": 165,
+   "block_id": "p0165-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The Conditions of Ijtihād",
+   "level": 2,
+   "page": 171,
+   "block_id": "p0171-b000",
+   "match_score": 95
+  },
+  {
+   "title": "Taqlīd",
+   "level": 2,
+   "page": 177,
+   "block_id": "p0177-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The reality of Taqlīd",
+   "level": 2,
+   "page": 181,
+   "block_id": "p0181-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The states of muqallidin and their preponderant qualifications",
+   "level": 2,
+   "page": 187,
+   "block_id": "p0187-b008",
+   "match_score": 100.0
+  },
+  {
+   "title": "Migrating from one mujtahid to another",
+   "level": 2,
+   "page": 189,
+   "block_id": "p0189-b000",
+   "match_score": 86.6
+  },
+  {
+   "title": "Learning the Shari'ah Rule",
+   "level": 1,
+   "page": 191,
+   "block_id": "p0191-b000",
+   "match_score": 86.7
+  },
+  {
+   "title": "The strength of the Evidence (quwwa al-dalīl)",
+   "level": 1,
+   "page": 194,
+   "block_id": "p0194-b000",
+   "match_score": 95
+  },
+  {
+   "title": "Consultation (Shūrā) or the adoption of an opinion in Islam",
+   "level": 1,
+   "page": 199,
+   "block_id": "p0199-b000",
+   "match_score": 94.4
+  },
+  {
+   "title": "Science and Culture",
+   "level": 1,
+   "page": 210,
+   "block_id": "p0210-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Islamic Culture",
+   "level": 2,
+   "page": 212,
+   "block_id": "p0212-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Method of Study in Islam",
+   "level": 2,
+   "page": 212,
+   "block_id": "p0212-b010",
+   "match_score": 100.0
+  },
+  {
+   "title": "Acquisition of Culture (thaqafa) and Sciences",
+   "level": 2,
+   "page": 215,
+   "block_id": "p0215-b005",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Cultural Movement",
+   "level": 2,
+   "page": 216,
+   "block_id": "p0216-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The position of Muslims with regards to non-Muslim cultures",
+   "level": 2,
+   "page": 217,
+   "block_id": "p0217-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Islamic Disciplines",
+   "level": 1,
+   "page": 224,
+   "block_id": "p0224-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "Tafsīr (Qur'ānic Exegesis)",
+   "level": 2,
+   "page": 225,
+   "block_id": "p0225-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The Exegetical Approaches of Mufassirun",
+   "level": 2,
+   "page": 228,
+   "block_id": "p0228-b000",
+   "match_score": 95
+  },
+  {
+   "title": "Sources of Tafsīr",
+   "level": 1,
+   "page": 233,
+   "block_id": "p0233-b018",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Ummah's need today for Mufassirin",
+   "level": 2,
+   "page": 237,
+   "block_id": null,
+   "match_score": null
+  },
+  {
+   "title": "The Science of Hadīth ('Ilm Al-Hadīth)",
+   "level": 1,
+   "page": 253,
+   "block_id": "p0253-b003",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Hadīth",
+   "level": 2,
+   "page": 254,
+   "block_id": null,
+   "match_score": null
+  },
+  {
+   "title": "The Transmitters of Hadīth (Rawat Al Hadīth)",
+   "level": 2,
+   "page": 255,
+   "block_id": "p0255-b012",
+   "match_score": 97.6
+  },
+  {
+   "title": "The One Whose Narration is Accepted and the One Whose Narration is not Accepted and the Exposition of (the science of) invalidation and attestation of reliability (al-Jarh wa Ta'dil)",
+   "level": 2,
+   "page": 257,
+   "block_id": "p0257-b006",
+   "match_score": 99.2
+  },
+  {
+   "title": "Narrations of the Muslim Sects",
+   "level": 2,
+   "page": 259,
+   "block_id": "p0259-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "Narration by meaning (Riwaya bil Ma'na) and abridgement of the hadīth",
+   "level": 2,
+   "page": 260,
+   "block_id": null,
+   "match_score": null
+  },
+  {
+   "title": "Categories of hadīth",
+   "level": 2,
+   "page": 261,
+   "block_id": "p0261-b014",
+   "match_score": 100.0
+  },
+  {
+   "title": "Categories of the Khabar al-Ahād",
+   "level": 2,
+   "page": 265,
+   "block_id": "p0265-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The accepted hadīth (maqbul) and the rejected hadīth (mardud)",
+   "level": 2,
+   "page": 267,
+   "block_id": "p0267-b015",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Mursal Hadīth",
+   "level": 2,
+   "page": 270,
+   "block_id": "p0270-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Hadīth Qudsi",
+   "level": 2,
+   "page": 271,
+   "block_id": "p0271-b016",
+   "match_score": 100.0
+  },
+  {
+   "title": "The inability to prove the authenticity of a hadīth from its sanad does not indicate that it is a weak hadīth",
+   "level": 2,
+   "page": 272,
+   "block_id": "p0272-b011",
+   "match_score": 100.0
+  },
+  {
+   "title": "Consideration of the hadīth as an evidence in the Shari'ah Rules",
+   "level": 2,
+   "page": 273,
+   "block_id": "p0273-b000",
+   "match_score": 85.7
+  },
+  {
+   "title": "Prophetic Biography (Sīrah) and History",
+   "level": 1,
+   "page": 277,
+   "block_id": "p0277-b000",
+   "match_score": 91.2
+  },
+  {
+   "title": "The Principles of Islamic Jurisprudence (Usūl al-Fiqh)",
+   "level": 1,
+   "page": 281,
+   "block_id": "p0281-b000",
+   "match_score": 95
+  },
+  {
+   "title": "Fiqh (Jurisprudence)",
+   "level": 2,
+   "page": 286,
+   "block_id": "p0286-b010",
+   "match_score": 97.1
+  },
+  {
+   "title": "The Development of Fiqh",
+   "level": 2,
+   "page": 288,
+   "block_id": "p0288-b000",
+   "match_score": 95
+  },
+  {
+   "title": "The effect of disputes and Debates (Munazarat) on Islamic jurisprudence",
+   "level": 2,
+   "page": 294,
+   "block_id": "p0294-b000",
+   "match_score": 92.2
+  },
+  {
+   "title": "The Flourishing of Islamic Jurisprudence",
+   "level": 2,
+   "page": 300,
+   "block_id": "p0300-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The Decline of Islamic Jurisprudence",
+   "level": 2,
+   "page": 303,
+   "block_id": "p0303-b000",
+   "match_score": 100.0
+  },
+  {
+   "title": "The myth of the influence of Roman Law on Islamic Jurisprudence",
+   "level": 2,
+   "page": 305,
+   "block_id": "p0305-b000",
+   "match_score": 100.0
+  }
+ ]
+}

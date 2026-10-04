@@ -107,3 +107,49 @@ def test_json_roundtrip_and_cli(tmp_path, capsys):
 
     (tmp_path / "ground_truth_toc.txt").write_text("Bad line\n", encoding="utf-8")
     assert run_case(tmp_path) == 1
+
+
+def _page_layout(rows):
+    blocks = [Block(id=f"p0000-b{n:03d}", page=0, order=n, type=t, text=x, raw_text=x,
+                    bbox=(0, n * 20, 100, n * 20 + 10), font_size=fs, n_chars=len(x))
+              for n, (t, x, fs) in enumerate(rows)]
+    return LayoutDoc(doc_id="s", source={}, pages=[Page(index=0, width=100, height=100)], blocks=blocks)
+
+
+def test_matching_folds_diacritics():
+    layout = _page_layout([("text", "The Science of Ḥadīth", 14.0)])
+    [r] = resolve_against_layout([{"title": "The Science of Hadith", "level": 1, "page": 0}], layout)
+    assert r["block_id"] == "p0000-b000" and r["match_score"] == 100
+
+
+def test_truncated_block_is_not_a_match():
+    layout = _page_layout([("text", "The", 14.0), ("text", "One should be familiar with the terms.", 12.0)])
+    [r] = resolve_against_layout([{"title": "The Hadith", "level": 2, "page": 0}], layout)
+    assert r["block_id"] is None
+
+
+def test_heading_beats_running_header_on_equal_score():
+    layout = _page_layout([("text", "In the name of Allah: Personality", 14.0),
+                           ("header", "The Islamic Personality Vol.1", None)])
+    [r] = resolve_against_layout([{"title": "Personality", "level": 1, "page": 0}], layout)
+    assert r["block_id"] == "p0000-b000"
+
+
+def test_source_line_is_recorded(tmp_path):
+    case = tmp_path / "synthetic"
+    case.mkdir()
+    (case / "layout.json").write_text(make_layout().model_dump_json(), encoding="utf-8")
+    (case / "ground_truth_toc.txt").write_text("# source: model-transcribed, human-verified\nIntroduction @ 1\n",
+                                               encoding="utf-8")
+    assert run_case(case) == 0
+    assert json.loads((case / "ground_truth_toc.json").read_text(encoding="utf-8"))["source"] == \
+        "model-transcribed, human-verified"
+
+
+def test_running_header_is_never_matched():
+    blocks = [Block(id=f"p{p:04d}-b000", page=p, order=0, type="header", text="The Islamic Personality Vol.1",
+                    raw_text="", bbox=(0, 0, 100, 10), n_chars=29) for p in range(3)]
+    layout = LayoutDoc(doc_id="s", source={}, pages=[Page(index=i, width=100, height=100) for i in range(3)],
+                       blocks=blocks)
+    [r] = resolve_against_layout([{"title": "The Islamic Personality", "level": 2, "page": 1}], layout)
+    assert r["block_id"] is None

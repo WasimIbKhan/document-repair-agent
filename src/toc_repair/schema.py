@@ -1,4 +1,5 @@
 import re
+import unicodedata
 from collections import Counter
 from functools import cached_property
 from typing import Literal
@@ -12,6 +13,12 @@ BlockType = Literal[
 KNOWN_TYPES = set(BlockType.__args__)
 
 _NON_ALNUM = re.compile(r"[^a-z0-9]+")
+
+
+def normalize(text: str) -> str:
+    folded = unicodedata.normalize("NFKD", text.lower())
+    folded = "".join(c for c in folded if not unicodedata.combining(c))
+    return _NON_ALNUM.sub(" ", folded).strip()
 
 
 def to_block_type(value) -> BlockType:
@@ -39,7 +46,7 @@ class Block(BaseModel):
 
     @property
     def normalized_text(self) -> str:
-        return _NON_ALNUM.sub(" ", self.text.lower()).strip()
+        return normalize(self.text)
 
 
 class OutlineEntry(BaseModel):

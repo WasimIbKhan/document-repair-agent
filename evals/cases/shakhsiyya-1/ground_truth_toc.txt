@@ -7,3 +7,81 @@
 # doc_id: shakhsiyya-1
 # pdf: Shakhsiyya-I.pdf
 # pages: 308
+
+# source: model-transcribed (Sonnet, from images of the contents pages), human-verified
+# offset: 12 pages
+
+# The Islamic Personality: VOL .ONE – INTELLECTUAL & ISLAMIC SCIENCES
+
+Personality @ 13
+  The Islamic Personality @ 16
+  The Formation of Personality @ 20
+  Gaps in Conduct @ 22
+The Islamic 'Aqidah @ 25
+  The Meaning of Imān in the Day of Resurrection @ 36
+  The Emergence of the Mutakallimīn and Their Approach @ 41
+  The Error in the Methodology of the Mutakallimīn @ 47
+  How the Issue of al-Qadaa' wa'l-Qadar Emerged @ 52
+  Al-Qadr @ 60
+  Al-Qadā' @ 65
+  Al-Qadā' wa'l-Qadar @ 68
+  Guidance and Misguidance @ 76
+  The Termination of the Life-Span [ajāl] is the Sole Cause of Death @ 84
+  Provision [Rizq] is in the Hands of Allah ﷻ Alone @ 90
+  The Attributes [Sifāt] of Allah ﷻ @ 94
+  The Muslim Philosophers @ 101
+  The Prophets and Messengers @ 104
+  The Infallibility of the Prophets @ 108
+  The Revelation @ 110
+  It is not allowed on the part of the Messenger ﷺ that he be a Mujtahid @ 115
+The Noble Qur'ān @ 126
+  The Compilation of the Qur'ān @ 130
+  The Qur'ānic Script @ 135
+  The Miracle of the Qur'ān @ 136
+The Sunnah @ 147
+  The Sunnah is a Shari'ah Evidence like the Qur'ān @ 151
+  Inferring evidences from the Sunnah @ 154
+  The Solitary Report (khabar al-ahad) is not a decisive proof (hujjah) for beliefs @ 156
+The difference between the 'Aqidah and the Shari'ah rule (Hukm Shar'i) @ 161
+Ijtihād and Taqlīd @ 163
+  Expert Research (Ijtihād) @ 166
+  The Conditions of Ijtihād @ 172
+  Taqlīd @ 178
+  The reality of Taqlīd @ 182
+  The states of muqallidin and their preponderant qualifications @ 188
+  Migrating from one mujtahid to another @ 190
+Learning the Shari'ah Rule @ 192
+The strength of the Evidence (quwwa al-dalīl) @ 195
+Consultation (Shūrā) or the adoption of an opinion in Islam @ 200
+Science and Culture @ 211
+  The Islamic Culture @ 213
+  The Method of Study in Islam @ 213
+  Acquisition of Culture (thaqafa) and Sciences @ 216
+  The Cultural Movement @ 217
+  The position of Muslims with regards to non-Muslim cultures @ 218
+The Islamic Disciplines @ 225
+  Tafsīr (Qur'ānic Exegesis) @ 226
+  The Exegetical Approaches of Mufassirun @ 229
+Sources of Tafsīr @ 234
+  The Ummah's need today for Mufassirin @ 238
+The Science of Hadīth ('Ilm Al-Hadīth) @ 254
+  The Hadīth @ 255
+  The Transmitters of Hadīth (Rawat Al Hadīth) @ 256
+  The One Whose Narration is Accepted and the One Whose Narration is not Accepted and the Exposition of (the science of) invalidation and attestation of reliability (al-Jarh wa Ta'dil) @ 258
+  Narrations of the Muslim Sects @ 260
+  Narration by meaning (Riwaya bil Ma'na) and abridgement of the hadīth @ 261
+  Categories of hadīth @ 262
+  Categories of the Khabar al-Ahād @ 266
+  The accepted hadīth (maqbul) and the rejected hadīth (mardud) @ 268
+  The Mursal Hadīth @ 271
+  The Hadīth Qudsi @ 272
+  The inability to prove the authenticity of a hadīth from its sanad does not indicate that it is a weak hadīth @ 273
+  Consideration of the hadīth as an evidence in the Shari'ah Rules @ 274
+Prophetic Biography (Sīrah) and History @ 278
+The Principles of Islamic Jurisprudence (Usūl al-Fiqh) @ 282
+  Fiqh (Jurisprudence) @ 287
+  The Development of Fiqh @ 289
+  The effect of disputes and Debates (Munazarat) on Islamic jurisprudence @ 295
+  The Flourishing of Islamic Jurisprudence @ 301
+  The Decline of Islamic Jurisprudence @ 304
+  The myth of the influence of Roman Law on Islamic Jurisprudence @ 306

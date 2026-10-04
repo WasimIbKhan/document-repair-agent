@@ -6,11 +6,11 @@ from pathlib import Path
 
 from rapidfuzz import fuzz
 
-from .schema import LayoutDoc
+from .schema import LayoutDoc, normalize
 
 CASES_DIR = Path(__file__).resolve().parents[2] / "evals" / "cases"
 PARTIAL_CAP = 95
-_NON_ALNUM = re.compile(r"[^a-z0-9]+")
+FURNITURE = {"header", "footer", "page_number"}
 _ENTRY = re.compile(r"^(?P<title>.*?)\s*@\s*(?P<page>\S+)\s*$")
 
 
@@ -20,8 +20,19 @@ class GroundTruthError(ValueError):
         self.line = line
 
 
+_SOURCE = re.compile(r"^#\s*source:\s*(?P<source>.+?)\s*$", re.I)
+
+
 def _norm(text: str) -> str:
-    return _NON_ALNUM.sub(" ", text.lower()).strip()
+    return normalize(text)
+
+
+def parse_source(text: str) -> str:
+    for line in text.splitlines():
+        m = _SOURCE.match(line.strip())
+        if m:
+            return m.group("source")
+    return "hand-written"
 
 
 def parse_ground_truth_text(text: str) -> list[dict]:
@@ -52,28 +63,37 @@ def parse_ground_truth_text(text: str) -> list[dict]:
 
 def _score(title_norm: str, block_norm: str) -> float:
     score = fuzz.ratio(title_norm, block_norm)
-    if 0 < len(block_norm) < 3 * len(title_norm):
+    if 0.5 * len(title_norm) <= len(block_norm) <= 5 * len(title_norm):
         score = max(score, min(fuzz.partial_ratio(title_norm, block_norm), PARTIAL_CAP))
     return score
 
 
-def _ranked(title: str, layout: LayoutDoc, page: int) -> list[tuple[float, object]]:
+def running_texts(layout: LayoutDoc, min_pages: int = 3) -> set[str]:
+    pages: dict[str, set[int]] = {}
+    for b in layout.blocks:
+        if b.text and b.type in FURNITURE:
+            pages.setdefault(b.normalized_text, set()).add(b.page)
+    return {t for t, ps in pages.items() if len(ps) >= min_pages}
+
+
+def _ranked(title: str, layout: LayoutDoc, page: int, skip: frozenset[str] = frozenset()) -> list[tuple[float, object]]:
     q = _norm(title)
-    scored = [(_score(q, b.normalized_text), b) for b in layout.blocks_on_page(page) if b.text]
-    return sorted(scored, key=lambda s: -s[0])
+    scored = [(_score(q, b.normalized_text), b) for b in layout.blocks_on_page(page)
+              if b.text and not (b.type in FURNITURE and b.normalized_text in skip)]
+    return sorted(scored, key=lambda s: (-s[0], -(s[1].font_size or 0), s[1].order))
 
 
 def resolve_against_layout(entries: list[dict], layout: LayoutDoc, threshold: float = 85) -> list[dict]:
-    out = []
+    out, skip = [], frozenset(running_texts(layout))
     for e in entries:
         page = e["page"]
         if not 0 <= page < layout.page_count:
             raise GroundTruthError(e.get("line", 0), f"page {page + 1} out of range 1..{layout.page_count}")
-        same = _ranked(e["title"], layout, page)
+        same = _ranked(e["title"], layout, page, skip)
         best = None
         for p in (page, page - 1, page + 1):
             if 0 <= p < layout.page_count:
-                cand = same if p == page else _ranked(e["title"], layout, p)
+                cand = same if p == page else _ranked(e["title"], layout, p, skip)
                 if cand and cand[0][0] >= threshold:
                     best = cand[0]
                     break
@@ -100,9 +120,9 @@ def build_report(resolved: list[dict]) -> list[str]:
     return report
 
 
-def write_ground_truth_json(path: Path, layout: LayoutDoc, resolved: list[dict]) -> None:
+def write_ground_truth_json(path: Path, layout: LayoutDoc, resolved: list[dict], source: str = "hand-written") -> None:
     keys = ("title", "level", "page", "block_id", "match_score")
-    doc = {"doc_id": layout.doc_id, "source": "hand-written",
+    doc = {"doc_id": layout.doc_id, "source": source,
            "entries": [{k: r[k] for k in keys} for r in resolved]}
     path.write_text(json.dumps(doc, indent=1, ensure_ascii=False), encoding="utf-8")
 
@@ -149,7 +169,7 @@ def run_case(case_dir: Path, threshold: float = 85) -> int:
     report = build_report(resolved)
     for line in report:
         print(f"{case_dir.name}: {line}")
-    write_ground_truth_json(case_dir / "ground_truth_toc.json", layout, resolved)
+    write_ground_truth_json(case_dir / "ground_truth_toc.json", layout, resolved, parse_source(text))
     matched = sum(r["block_id"] is not None for r in resolved)
     warnings = sum(l.startswith("WARN") for l in report)
     print(f"{case_dir.name}: entries={len(resolved)} matched={matched} "
